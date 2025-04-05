@@ -9,7 +9,6 @@
     "setup": "node interchain/scripts/runSetupEnv",
     "build": "rm -rf artifacts && npx hardhat clean && npx hardhat compile"
   },
-  "type": "module",
   "keywords": [
     "gmp",
     "general",
