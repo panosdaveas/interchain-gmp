@@ -1,0 +1,52 @@
+{
+  "name": "tl_gmp",
+  "version": "1.0.0",
+  "description": "time-locked general message passing with interoperability",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node interchain/scripts/runStart",
+    "setup": "node interchain/scripts/runSetupEnv",
+    "build": "rm -rf artifacts && npx hardhat clean && npx hardhat compile"
+  },
+  "keywords": [
+    "gmp",
+    "general",
+    "message",
+    "passing",
+    "timelock",
+    "encryption",
+    "tlock",
+    "intercahain",
+    "interoperability"
+  ],
+  "author": "Panos Daveas",
+  "license": "ISC",
+  "dependencies": {
+    "@axelar-network/axelar-chains-config": "^1.2.0",
+    "@axelar-network/axelar-gmp-sdk-solidity": "^6.0.0",
+    "@axelar-network/axelar-local-dev": "^2.3.3",
+    "@axelar-network/axelarjs-sdk": "^0.17.2",
+    "axios": "^1.8.4",
+    "bip39": "^3.1.0",
+    "dotenv": "^16.4.7",
+    "drand-client": "^1.2.6",
+    "ethers": "^5.8.0",
+    "path": "^0.12.7",
+    "require": "^2.4.20",
+    "tlock-js": "^0.9.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^1.0.0",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "chai": "^4.4.1",
+    "eslint-config-richardpringle": "^2.0.0",
+    "hardhat": "^2.9.9",
+    "hardhat-gas-reporter": "^1.0.8",
+    "mocha": "^10.0.0",
+    "prettier": "^2.6.2",
+    "prettier-plugin-solidity": "^1.0.0-beta.19",
+    "solhint": "^3.3.7",
+    "solidity-coverage": "^0.8.2"
+  }
+}
