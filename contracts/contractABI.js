@@ -259,4 +259,4 @@ const ContractABI = [
     },
 ];               
 
-export default ContractABI;
+module.exports = ContractABI;

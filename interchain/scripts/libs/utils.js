@@ -1,4 +1,4 @@
-const { Wallet, ethers } = require('ethers');
+const { Wallet, Contract, ethers } = require('ethers');
 const path = require('path');
 const fs = require('fs-extra');
 const { configPath } = require('../../config');
@@ -12,7 +12,7 @@ const { AxelarAssetTransfer, AxelarQueryAPI, CHAINS, Environment } = require('@a
 function getWallet() {
     checkWallet();
     const privateKey = process.env.EVM_PRIVATE_KEY;
-    return privateKey ? new Wallet(privateKey) : Wallet.fromMnemonic(process.env.EVM_MNEMONIC);
+    return new Wallet(privateKey);
 }
 
 function readChainConfig(filePath) {
@@ -31,7 +31,6 @@ function readChainConfig(filePath) {
  */
 function getEVMChains(env, chains = []) {
     checkEnv(env);
-
     const selectedChains = chains.length > 0 ? chains : getDefaultChains(env);
 
     if (env === 'local') {
@@ -45,6 +44,16 @@ function getEVMChains(env, chains = []) {
         gateway: chain.contracts.AxelarGateway.address,
         gasService: chain.contracts.AxelarGasService.address,
     }));
+}
+
+function listLocalChains() {
+  const env = 'local'
+  checkEnv(env);
+
+  if (env === "local") {
+    return fs
+      .readJsonSync(configPath.localEvmChains)
+  }
 }
 
 /**
@@ -226,6 +235,23 @@ function sanitizeEventArgs(event) {
     }, {});
 }
 
+function deserializeContract(chain, wallet) {
+  // Loop through every keys in the chain object.
+  for (const key of Object.keys(chain)) {
+    // If the object has an abi, it is a contract.
+
+    if (chain[key].abi) {
+      // Get the contract object.
+      const contract = chain[key];
+
+      // Deserialize the contract. Assign the contract to the chain object.
+      chain[key] = new Contract(contract.address, contract.abi, wallet);
+    }
+  }
+
+  return chain;
+}
+
 module.exports = {
     getWallet,
     getDepositAddress,
@@ -237,4 +263,6 @@ module.exports = {
     getExamplePath,
     readChainConfig,
     sanitizeEventArgs,
+    listLocalChains,
+    deserializeContract,
 };

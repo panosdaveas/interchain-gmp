@@ -1,8 +1,8 @@
-import { roundAt, roundTime, timelockEncrypt, timelockDecrypt } from "tlock-js";
-import { quicknetClient } from "drand-client";
-import { MAINNET_CHAIN_INFO } from "tlock-js/drand/defaults.js";
+const { roundAt, roundTime, timelockEncrypt, timelockDecrypt } = require("tlock-js");
+const { quicknetClient } = require("drand-client");
+const { MAINNET_CHAIN_INFO } = require("tlock-js/drand/defaults.js");
 
-export function tLock() {
+function tLock() {
 
   const client = quicknetClient();
 
@@ -108,3 +108,7 @@ export function tLock() {
     parseMessagesAndDecrypt,
   };
 }
+
+module.exports = {
+  tLock,
+};

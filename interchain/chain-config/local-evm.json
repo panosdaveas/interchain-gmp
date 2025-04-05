@@ -11,7 +11,26 @@
     "tokens": {
       "aUSDC": "aUSDC"
     },
-    "rpc": "http://127.0.0.1:8500/0"
+    "rpc": "http://127.0.0.1:8500/0",
+    "contract": {
+      "abi": [
+        "constructor(address gateway_, address gasService_, string chainName_)",
+        "error InvalidAddress()",
+        "error NotApprovedByGateway()",
+        "event MessageReceived(address indexed sender, address indexed recipient, string sourceChain, string content)",
+        "event MessageSent(address indexed sender, address indexed recipient, string destinationChain, string content)",
+        "function currentChain() view returns (string)",
+        "function execute(bytes32 commandId, string sourceChain, string sourceAddress, bytes payload)",
+        "function gasService() view returns (address)",
+        "function gateway() view returns (address)",
+        "function getAllMessages() view returns (tuple(address sender, address recipient, string content, uint256 timestamp, bool isRead, string sourceChain, string destinationChain)[])",
+        "function getChainName() view returns (string)",
+        "function getMessageCount(address user) view returns (uint256)",
+        "function readMessage(uint256 index) returns (address sender, string content, uint256 timestamp, string sourceChain, string destinationChain)",
+        "function sendMessage(string destinationChain, string destinationAddress, address recipient, string content) payable"
+      ],
+      "address": "0xBA8A5c7EbE020085e40D382A2Dcb68a4324BF503"
+    }
   },
   {
     "name": "Avalanche",
@@ -25,7 +44,26 @@
     "tokens": {
       "aUSDC": "aUSDC"
     },
-    "rpc": "http://127.0.0.1:8500/1"
+    "rpc": "http://127.0.0.1:8500/1",
+    "contract": {
+      "abi": [
+        "constructor(address gateway_, address gasService_, string chainName_)",
+        "error InvalidAddress()",
+        "error NotApprovedByGateway()",
+        "event MessageReceived(address indexed sender, address indexed recipient, string sourceChain, string content)",
+        "event MessageSent(address indexed sender, address indexed recipient, string destinationChain, string content)",
+        "function currentChain() view returns (string)",
+        "function execute(bytes32 commandId, string sourceChain, string sourceAddress, bytes payload)",
+        "function gasService() view returns (address)",
+        "function gateway() view returns (address)",
+        "function getAllMessages() view returns (tuple(address sender, address recipient, string content, uint256 timestamp, bool isRead, string sourceChain, string destinationChain)[])",
+        "function getChainName() view returns (string)",
+        "function getMessageCount(address user) view returns (uint256)",
+        "function readMessage(uint256 index) returns (address sender, string content, uint256 timestamp, string sourceChain, string destinationChain)",
+        "function sendMessage(string destinationChain, string destinationAddress, address recipient, string content) payable"
+      ],
+      "address": "0xBA8A5c7EbE020085e40D382A2Dcb68a4324BF503"
+    }
   },
   {
     "name": "Fantom",
@@ -39,7 +77,26 @@
     "tokens": {
       "aUSDC": "aUSDC"
     },
-    "rpc": "http://127.0.0.1:8500/2"
+    "rpc": "http://127.0.0.1:8500/2",
+    "contract": {
+      "abi": [
+        "constructor(address gateway_, address gasService_, string chainName_)",
+        "error InvalidAddress()",
+        "error NotApprovedByGateway()",
+        "event MessageReceived(address indexed sender, address indexed recipient, string sourceChain, string content)",
+        "event MessageSent(address indexed sender, address indexed recipient, string destinationChain, string content)",
+        "function currentChain() view returns (string)",
+        "function execute(bytes32 commandId, string sourceChain, string sourceAddress, bytes payload)",
+        "function gasService() view returns (address)",
+        "function gateway() view returns (address)",
+        "function getAllMessages() view returns (tuple(address sender, address recipient, string content, uint256 timestamp, bool isRead, string sourceChain, string destinationChain)[])",
+        "function getChainName() view returns (string)",
+        "function getMessageCount(address user) view returns (uint256)",
+        "function readMessage(uint256 index) returns (address sender, string content, uint256 timestamp, string sourceChain, string destinationChain)",
+        "function sendMessage(string destinationChain, string destinationAddress, address recipient, string content) payable"
+      ],
+      "address": "0xBA8A5c7EbE020085e40D382A2Dcb68a4324BF503"
+    }
   },
   {
     "name": "Ethereum",
@@ -53,7 +110,26 @@
     "tokens": {
       "aUSDC": "aUSDC"
     },
-    "rpc": "http://127.0.0.1:8500/3"
+    "rpc": "http://127.0.0.1:8500/3",
+    "contract": {
+      "abi": [
+        "constructor(address gateway_, address gasService_, string chainName_)",
+        "error InvalidAddress()",
+        "error NotApprovedByGateway()",
+        "event MessageReceived(address indexed sender, address indexed recipient, string sourceChain, string content)",
+        "event MessageSent(address indexed sender, address indexed recipient, string destinationChain, string content)",
+        "function currentChain() view returns (string)",
+        "function execute(bytes32 commandId, string sourceChain, string sourceAddress, bytes payload)",
+        "function gasService() view returns (address)",
+        "function gateway() view returns (address)",
+        "function getAllMessages() view returns (tuple(address sender, address recipient, string content, uint256 timestamp, bool isRead, string sourceChain, string destinationChain)[])",
+        "function getChainName() view returns (string)",
+        "function getMessageCount(address user) view returns (uint256)",
+        "function readMessage(uint256 index) returns (address sender, string content, uint256 timestamp, string sourceChain, string destinationChain)",
+        "function sendMessage(string destinationChain, string destinationAddress, address recipient, string content) payable"
+      ],
+      "address": "0xBA8A5c7EbE020085e40D382A2Dcb68a4324BF503"
+    }
   },
   {
     "name": "Polygon",
@@ -67,6 +143,25 @@
     "tokens": {
       "aUSDC": "aUSDC"
     },
-    "rpc": "http://127.0.0.1:8500/4"
+    "rpc": "http://127.0.0.1:8500/4",
+    "contract": {
+      "abi": [
+        "constructor(address gateway_, address gasService_, string chainName_)",
+        "error InvalidAddress()",
+        "error NotApprovedByGateway()",
+        "event MessageReceived(address indexed sender, address indexed recipient, string sourceChain, string content)",
+        "event MessageSent(address indexed sender, address indexed recipient, string destinationChain, string content)",
+        "function currentChain() view returns (string)",
+        "function execute(bytes32 commandId, string sourceChain, string sourceAddress, bytes payload)",
+        "function gasService() view returns (address)",
+        "function gateway() view returns (address)",
+        "function getAllMessages() view returns (tuple(address sender, address recipient, string content, uint256 timestamp, bool isRead, string sourceChain, string destinationChain)[])",
+        "function getChainName() view returns (string)",
+        "function getMessageCount(address user) view returns (uint256)",
+        "function readMessage(uint256 index) returns (address sender, string content, uint256 timestamp, string sourceChain, string destinationChain)",
+        "function sendMessage(string destinationChain, string destinationAddress, address recipient, string content) payable"
+      ],
+      "address": "0xBA8A5c7EbE020085e40D382A2Dcb68a4324BF503"
+    }
   }
 ]

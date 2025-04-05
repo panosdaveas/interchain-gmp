@@ -1,4 +1,4 @@
-export const networksList = {
+const networksList = {
   // avalanche: {
   //   inputName: "avalanche",
   //   displayName: "Avalanche",
@@ -57,4 +57,8 @@ export const networksList = {
     tokenName: "Avax",
     tokenSymbol: "AVAX",
   }
+};
+
+module.exports = {
+  networksList,
 };

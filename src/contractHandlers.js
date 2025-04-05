@@ -1,12 +1,8 @@
 // Required imports
-import { ethers } from "ethers";
-import ContractABI from "../contracts/contractABI.js";
-import axios from "axios"; // For gas estimation API calls
-import { AxelarQueryAPI, Environment, CHAINS } from "@axelar-network/axelarjs-sdk";
-
-// Contract ABI - this is a simplified version, you'll need the full ABI from your contract
-const contractABI = ContractABI;
-
+const { ethers } = require("ethers");
+const { AxelarQueryAPI, Environment, CHAINS } = require("@axelar-network/axelarjs-sdk");
+const myContract = require("../artifacts/contracts/tl_ic_gmp.sol/CrossChainMessaging.json"
+);
 
 // Class to handle cross-chain messaging
 class CrossChainMessenger {
@@ -16,7 +12,7 @@ class CrossChainMessenger {
     this.contractAddress = contractAddress;
     this.contract = new ethers.Contract(
       this.contractAddress,
-      contractABI,
+      myContract.abi,
       this.signer
     );
   }
@@ -147,7 +143,7 @@ class CrossChainMessenger {
 // ============================================================
 
 // 1. For User A on Chain A sending a message to User B on Chain B
-export async function userASendsMessage(wallet, contractAddress, data) {
+async function userASendsMessage(wallet, contractAddress, data) {
   try {
     // Create messenger with the provided wallet and contract address
     const messenger = new CrossChainMessenger(
@@ -173,7 +169,7 @@ export async function userASendsMessage(wallet, contractAddress, data) {
 }
 
 // 2. For User B on Chain B retrieving messages
-export async function userBReadsMessages(wallet, contractAddress) {
+async function userBReadsMessages(wallet, contractAddress) {
   try {
     // Create messenger with the provided wallet and contract address
     const messenger = new CrossChainMessenger(
@@ -189,3 +185,8 @@ export async function userBReadsMessages(wallet, contractAddress) {
     throw error;
   }
 }
+
+module.exports = {
+  userASendsMessage,
+  userBReadsMessages,
+};

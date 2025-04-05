@@ -1,18 +1,33 @@
 ### timelocked interchain general mesage passing
 
-1. Install the dependencies:
+Install the dependencies:
 ```
 npm install
 ```
 
-2. Use environment variables to use your private key securely:
+Use environment variables to use your private key securely:
 ```
-export PRIVATE_KEY=0xYourPrivateKeyHere
+export EVM_PRIVATE_KEY=0xYourPrivateKeyHere
 ```
 
-3. Run the app.js file:
+Build the smart contracts:
+```
+npm build
+```
+
+Run the devnet node in a separate terminal:
+```
+npm run start
+```
+
+Deplay our contract on devnet:
+```
+npm run deploy local
+```
+
+Run the app.js file:
 ```
 node app.js
 ```
 
-4. Follow the instructions on terminal to send a message from chain A to chain B.
+Follow the instructions on terminal to send a message from chain A to chain B.

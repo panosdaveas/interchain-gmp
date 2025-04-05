@@ -4,10 +4,12 @@
   "description": "time-locked general message passing with interoperability",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node interchain/scripts/runTest",
     "start": "node interchain/scripts/runStart",
     "setup": "node interchain/scripts/runSetupEnv",
-    "build": "rm -rf artifacts && npx hardhat clean && npx hardhat compile"
+    "build": "rm -rf artifacts && npx hardhat clean && npx hardhat compile",
+    "deploy": "node interchain/scripts/runDeploy",
+    "check-balance": "node interchain/scripts/runCheckBalance"
   },
   "keywords": [
     "gmp",

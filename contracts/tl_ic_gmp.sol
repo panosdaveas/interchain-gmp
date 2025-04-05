@@ -1,11 +1,9 @@
-// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 // Import Axelar interfaces
 import { AxelarExecutable } from '@axelar-network/axelar-gmp-sdk-solidity/contracts/executable/AxelarExecutable.sol';
 import { IAxelarGateway } from '@axelar-network/axelar-gmp-sdk-solidity/contracts/interfaces/IAxelarGateway.sol';
 import { IAxelarGasService } from '@axelar-network/axelar-gmp-sdk-solidity/contracts/interfaces/IAxelarGasService.sol';
-import { IERC20 } from '@axelar-network/axelar-gmp-sdk-solidity/contracts/interfaces/IERC20.sol';
 
 /**
  * @title CrossChainMessaging
@@ -13,14 +11,17 @@ import { IERC20 } from '@axelar-network/axelar-gmp-sdk-solidity/contracts/interf
  */
 contract CrossChainMessaging is AxelarExecutable {
     IAxelarGasService public immutable gasService;
+    string public currentChain; // Store the current chain name
     
-    // Message structure
+    // Message structure with both sourceChain and destinationChain fields
     struct Message {
         address sender;
         address recipient;
         string content;
         uint256 timestamp;
         bool isRead;
+        string sourceChain;     // Where the message came from
+        string destinationChain; // Where the message was sent to (this chain)
     }
     
     // Mapping of recipient address to their messages
@@ -30,10 +31,12 @@ contract CrossChainMessaging is AxelarExecutable {
     event MessageReceived(address indexed sender, address indexed recipient, string sourceChain, string content);
     
     constructor(
-        address _gateway,
-        address _gasService
-    ) AxelarExecutable(_gateway) {
-        gasService = IAxelarGasService(_gasService);
+        address gateway_,
+        address gasService_,
+        string memory chainName_  // Add current chain name parameter
+    ) AxelarExecutable(gateway_) {
+        gasService = IAxelarGasService(gasService_);
+        currentChain = chainName_;
     }
     
     /**
@@ -41,31 +44,32 @@ contract CrossChainMessaging is AxelarExecutable {
      * @param destinationChain The name of the destination chain (e.g., "Ethereum", "Avalanche")
      * @param destinationAddress The contract address on the destination chain
      * @param recipient The recipient's address on the destination chain
-     * @param _content The message content
+     * @param content The message content
      */
     function sendMessage(
         string calldata destinationChain,
         string calldata destinationAddress,
         address recipient,
-        string calldata _content
+        string calldata content
     ) external payable {
-        require(msg.value > 0, 'Gas payment is required');
-        // Prepare the payload with sender and recipient information
-        bytes memory payload = abi.encode(msg.sender, recipient, _content);
+        // Prepare the payload with sender, recipient, source chain information
+        bytes memory payload = abi.encode(msg.sender, recipient, content, currentChain);
         
         // Pay for gas on the destination chain
-        gasService.payNativeGasForContractCall{value: msg.value}(
-            address(this),
-            destinationChain,
-            destinationAddress,
-            payload,
-            msg.sender
-        );
+        if (msg.value > 0) {
+            gasService.payNativeGasForContractCall{value: msg.value}(
+                address(this),
+                destinationChain,
+                destinationAddress,
+                payload,
+                msg.sender
+            );
+        }
         
         // Send the message across chains
         gateway().callContract(destinationChain, destinationAddress, payload);
         
-        emit MessageSent(msg.sender, recipient, destinationChain, _content);
+        emit MessageSent(msg.sender, recipient, destinationChain, content);
     }
     
     /**
@@ -77,16 +81,19 @@ contract CrossChainMessaging is AxelarExecutable {
         string calldata sourceAddress,
         bytes calldata payload
     ) internal override {
-        // Decode the payload
-        (address sender, address recipient, string memory content) = abi.decode(payload, (address, address, string));
+        // Decode the payload, now including the original source chain
+        (address sender, address recipient, string memory content, string memory originalSourceChain) = 
+            abi.decode(payload, (address, address, string, string));
         
-        // Store the message for the recipient
+        // Store the message for the recipient with both chain information
         userMessages[recipient].push(Message({
             sender: sender,
             recipient: recipient,
             content: content,
             timestamp: block.timestamp,
-            isRead: false
+            isRead: false,
+            sourceChain: originalSourceChain,  // Use the original source chain identifier
+            destinationChain: currentChain     // This is the destination chain
         }));
         
         emit MessageReceived(sender, recipient, sourceChain, content);
@@ -102,13 +109,25 @@ contract CrossChainMessaging is AxelarExecutable {
     /**
      * @dev Read a message by index
      */
-    function readMessage(uint256 index) external returns (address sender, string memory content, uint256 timestamp) {
+    function readMessage(uint256 index) external returns (
+        address sender, 
+        string memory content, 
+        uint256 timestamp, 
+        string memory sourceChain,
+        string memory destinationChain
+    ) {
         require(index < userMessages[msg.sender].length, "Message does not exist");
         
         Message storage message = userMessages[msg.sender][index];
         message.isRead = true;
         
-        return (message.sender, message.content, message.timestamp);
+        return (
+            message.sender, 
+            message.content, 
+            message.timestamp, 
+            message.sourceChain,
+            message.destinationChain
+        );
     }
     
     /**
@@ -117,11 +136,11 @@ contract CrossChainMessaging is AxelarExecutable {
     function getAllMessages() external view returns (Message[] memory) {
         return userMessages[msg.sender];
     }
+    
+    /**
+     * @dev Get the name of the current chain
+     */
+    function getChainName() external view returns (string memory) {
+        return currentChain;
+    }
 }
-
-// 0x589B3Ce3A19a46fCeea817438fd601Db49DFc9F0 Sepolia Deployment
-// 0x96122D7f5B596d0a11115f96284f6d10A4Ae59a8 Avalanche Deployment
-// 1st tx: https://testnet.axelarscan.io/gmp/0x5e89e49050fc9670c6b7a607e80916763d9c9533070260bfe2caf0cb0054cec4-1
-
-// Sucessfull tx sent
-//https://testnet.axelarscan.io/gmp/0xee4deca7545c423fb34cb4383c384b09aedc71b893961cdd93025642c5ebb982

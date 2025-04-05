@@ -1,8 +1,9 @@
-import readline from "node:readline";
-import { networksList } from "./networks.js";
-import { tLock } from "./timeLock.js";
+const readline = require("node:readline");
+const { listLocalChains } = require("../interchain/scripts/libs");
+const { tLock } = require("./timeLock.js");
 
-const tlock = await tLock();
+const tlock = tLock();
+const chains = listLocalChains();
 
 async function encrypt(data) {
   const now = Date.now();
@@ -11,30 +12,23 @@ async function encrypt(data) {
   return tl.ciphertext;
 }
 
-export async function formattedData(data) {
+async function formattedData(data) {
   return {
-    networkName: data.networkName.trim(),
-    destinationChain: networksList[data.destinationChain].icName,
-    contractAddress: data.contractAddress.trim(),
+    sourceChain: data.sourceChain.trim(),
+    destinationChain: data.destinationChain.trim(),
+    contractAddress: data.contractAddress,
     recipientAddress: data.recipientAddress.trim(),
-    decryptionTime: Number(data.decryptionTime.trim()),
     payload: await encrypt(data),
+    decryptionTime: Number(data.decryptionTime),
   };
 }
 
-export function readFromTerminal(networkName) {
+function readFromTerminal(sourceChain) {
   return new Promise((resolve) => {
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
     });
-
-    console.log("\nAvailable networks:");
-    let i = 1;
-    for (const net in networksList) {
-      console.log(`${i}: ${networksList[net].inputName}`);
-      i++;
-    }
 
     rl.question("\nEnter your destination chain name: ", (destinationChain) => {
       rl.question("Enter the recipient address: ", (recipientAddress) => {
@@ -42,10 +36,11 @@ export function readFromTerminal(networkName) {
           rl.question("Enter age in minutes: ", (decryptionTime) => {
             rl.close();
             const data = {
-              networkName,
+              sourceChain,
               destinationChain,
-              contractAddress:
-                networksList[destinationChain].contractDeployment,
+              contractAddress: chains.find(
+                (chain) => chain.name === destinationChain
+              ).contract.address,
               recipientAddress,
               payload,
               decryptionTime,
@@ -54,7 +49,7 @@ export function readFromTerminal(networkName) {
             formattedData(data)
               .then((formattedResult) => {
                 console.log(
-                  `\n-> Sending message from: ${formattedResult.networkName} \n` +
+                  `\n-> Sending message from: ${formattedResult.sourceChain} \n` +
                     `-> to: ${formattedResult.destinationChain} \n` +
                     `-> on contract: ${formattedResult.contractAddress} \n` +
                     `-> with recipient: ${formattedResult.recipientAddress} \n` +
@@ -73,19 +68,12 @@ export function readFromTerminal(networkName) {
   });
 }
 
-export function readSenderNetwork() {
+function readSenderNetwork() {
   return new Promise((resolve) => {
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
     });
-
-    console.log("Available networks:");
-    let i = 1;
-    for (const net in networksList) {
-      console.log(`${i}: ${networksList[net].inputName}`);
-      i++;
-    }
 
     rl.question("\nEnter your source chain name: ", (sourceChain) => {
       rl.close();
@@ -95,7 +83,7 @@ export function readSenderNetwork() {
   });
 }
 
-export function readSelection() {
+function readSelection() {
   return new Promise((resolve) => {
     const rl = readline.createInterface({
       input: process.stdin,
@@ -115,3 +103,9 @@ export function readSelection() {
     });
   });
 }
+
+module.exports = {
+  readFromTerminal,
+  readSenderNetwork,
+  readSelection,
+};
