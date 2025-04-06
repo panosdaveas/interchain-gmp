@@ -1,6 +1,6 @@
 const readline = require("node:readline");
 const { listLocalChains } = require("../interchain/scripts/libs");
-const { tLock } = require("./timeLock.js");
+const { tLock } = require("../timelock/timeLock.js");
 
 const tlock = tLock();
 const chains = listLocalChains();

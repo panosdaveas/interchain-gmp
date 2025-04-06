@@ -23,6 +23,7 @@ async function chainDeploy(chain, wallet) {
   chain.contract = await deployContract(wallet, CallContract, [
     chain.gateway,
     chain.gasService,
+    chain.name,
   ]);
   chain.wallet = wallet;
   console.log(

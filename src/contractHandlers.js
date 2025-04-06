@@ -40,7 +40,7 @@ class CrossChainMessenger {
       const gasAmount = await this.estimateGasForDestinationChain(
         sourceChain,
         destinationChain,
-        message,
+        message
       );
 
       // Send the transaction with gas payment
@@ -54,7 +54,7 @@ class CrossChainMessenger {
 
       // Wait for transaction confirmation
       const receipt = await tx.wait();
-      console.log("Message sent!", receipt);
+      console.log("Message sent!", receipt.transactionHash);
       return receipt;
     } catch (error) {
       console.error("Error sending message:", error);
@@ -73,12 +73,16 @@ class CrossChainMessenger {
 
       const messages = await this.contract.getAllMessages();
 
-      // Format the messages for easier consumption
+      // Format the messages for easier consumption, now including both chains
       return messages.map((msg) => ({
+        sourceChain: msg.sourceChain, // Include the source chain
+        destinationChain: msg.destinationChain, // Include the destination chain
         sender: msg.sender,
         content: msg.content,
-        timestamp: new Date(parseInt(msg.timestamp.toString())*1000).toLocaleString(),
-        isRead: msg.isRead,
+        timestamp: new Date(
+          parseInt(msg.timestamp.toString()) * 1000
+        ).toLocaleString(),
+        // isRead: msg.isRead,
       }));
     } catch (error) {
       console.error("Error getting messages:", error);
@@ -96,17 +100,31 @@ class CrossChainMessenger {
         throw new Error("Contract not initialized");
       }
 
-      const [sender, content, timestamp] = await this.contract.readMessage(
-        index
-      );
+      const [sender, content, timestamp, sourceChain, destinationChain] =
+        await this.contract.readMessage(index);
 
       return {
         sender,
         content,
         timestamp: new Date(timestamp.toNumber() * 1000),
+        sourceChain,
+        destinationChain,
       };
     } catch (error) {
       console.error("Error reading message:", error);
+      throw error;
+    }
+  }
+
+  async getChainName() {
+    try {
+      if (!this.contract) {
+        throw new Error("Contract not initialized");
+      }
+
+      return await this.contract.getChainName();
+    } catch (error) {
+      console.error("Error getting chain name:", error);
       throw error;
     }
   }
@@ -118,22 +136,22 @@ class CrossChainMessenger {
   async estimateGasForDestinationChain(sourceChain, destinationChain, payload) {
     const API = new AxelarQueryAPI({ environment: Environment.TESTNET });
     const response = API.estimateGasFee(
-      sourceChain, // source chain\
-      destinationChain, // destination chain
-      700000, // gas limit
-      1.1, // gas multiplier
-      undefined, // memo
-      undefined, // token
-      payload // payload
+      sourceChain,
+      destinationChain,
+      700000,
+      1.1,
+      undefined,
+      undefined,
+      payload
     );
-    
-   response
-     .then((res) => {
-       console.log("Result:", res);
-     })
-     .catch((error) => {
-       console.error("An error occurred:", error);
-     });
+
+    response
+      .then((res) => {
+        console.log("Result:", res);
+      })
+      .catch((error) => {
+        console.error("An error occurred:", error);
+      });
 
     return response;
   }
@@ -143,18 +161,18 @@ class CrossChainMessenger {
 // ============================================================
 
 // 1. For User A on Chain A sending a message to User B on Chain B
-async function userASendsMessage(wallet, contractAddress, data) {
+async function userASendsMessage(wallet, sourceContractAddress, data) {
   try {
     // Create messenger with the provided wallet and contract address
     const messenger = new CrossChainMessenger(
       wallet.provider,
       wallet,
-      contractAddress
+      sourceContractAddress
     );
 
     // User A sends a message to User B
     const receipt = await messenger.sendMessage(
-      data.networkName, // Source chain name
+      data.sourceChain, // Source chain name
       data.destinationChain, // Destination chain name
       data.contractAddress, // Contract address on Chain B
       data.recipientAddress, // User B's address

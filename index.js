@@ -1,13 +1,17 @@
 const {
-  readSenderNetwork, readSelection, readFromTerminal,
-} = require('./src/readFromTerminal.js');
+  readSenderNetwork,
+  readSelection,
+  readFromTerminal,
+} = require("./src/readFromTerminal.js");
 
 const { ethers, getDefaultProvider } = require("ethers");
-const { tLock } = require("./src/timeLock.js");
+const { tLock } = require("./timelock/timeLock.js");
 const {
   userASendsMessage,
   userBReadsMessages,
 } = require("./src/contractHandlers.js");
+
+const { parseMessagesAndDecrypt } = require("./timelock/utils");
 
 const {
   getEVMChains,
@@ -16,10 +20,11 @@ const {
 } = require("./interchain/scripts/libs");
 const { configPath } = require("./interchain/config");
 
+
 async function main() {
-//   const wallet = getWallet();
-//   const chain = chains.find((chain) => chain.name === "Avalanche");
-//   const provider = getDefaultProvider(chain.rpc);
+  //   const wallet = getWallet();
+  //   const chain = chains.find((chain) => chain.name === "Avalanche");
+  //   const provider = getDefaultProvider(chain.rpc);
   const privateKey = process.env.EVM_PRIVATE_KEY;
   const chains = listLocalChains();
   const names = chains.map((chain) => chain.name);
@@ -34,7 +39,7 @@ async function main() {
   const networkInfo = await provider.getNetwork();
 
   console.log(
-    `\n-> Connected to ${chain['name']} (Chain ID: ${chain['chainId']})`
+    `\n-> Connected to ${chain["name"]} (Chain ID: ${chain["chainId"]})`
   );
 
   // // Get wallet address and balance
@@ -43,29 +48,26 @@ async function main() {
 
   console.log(`💳 Wallet Address: ${address}`);
   console.log(`💰 Balance: ${ethers.utils.formatEther(balance)} ETH`);
-  
+
   const tlock = tLock();
   const select = await readSelection();
   switch (select) {
-      case 1:
+    case 1:
       const rlData = await readFromTerminal(chain.name);
       const sendMessage = await userASendsMessage(
-          wallet,
-          chain.contract.address,
-          rlData
+        wallet,
+        chain.contract.address,
+        rlData
       );
       break;
-      case 2:
-  //     // Get all messages
-      const messages = await userBReadsMessages(
-          wallet,
-          chain.contract.address
-      );
+    case 2:
+      // Get all messages
+      const messages = await userBReadsMessages(wallet, chain.contract.address);
       console.log("\nYou have", messages.length, "messages:\n");
-      const decryptedMessages = await tlock.parseMessagesAndDecrypt(messages);
+      const decryptedMessages = await parseMessagesAndDecrypt(messages, tlock);
       console.log(decryptedMessages);
       break;
-      default:
+    default:
   }
 }
 

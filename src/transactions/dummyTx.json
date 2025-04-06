@@ -1,0 +1,10 @@
+[
+    {
+        "sourceChain": "Avalanche",
+        "destinationChain": "Moonbeam",
+        "contractAddress": "0xBA8A5c7EbE020085e40D382A2Dcb68a4324BF503",
+        "recipientAddress": "0xE2a7027C0DCcF4F322e0e792765038902ce4500e",
+        "payload": "Hello, world!",
+        "decryptionTime": 1
+    }
+]
