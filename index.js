@@ -1,8 +1,9 @@
 const {
-  readSenderNetwork,
-  readSelection,
-  readFromTerminal,
+  readSendMessage,
+  readAction,
+  readPrompt,
 } = require("./src/readFromTerminal.js");
+
 
 const { ethers, getDefaultProvider } = require("ethers");
 const { tLock } = require("./timelock/timeLock.js");
@@ -19,6 +20,7 @@ const {
   listLocalChains,
 } = require("./interchain/scripts/libs");
 const { configPath } = require("./interchain/config");
+const { sleep } = require("@axelar-network/axelarjs-sdk");
 
 
 async function main() {
@@ -26,12 +28,13 @@ async function main() {
   //   const chain = chains.find((chain) => chain.name === "Avalanche");
   //   const provider = getDefaultProvider(chain.rpc);
   const privateKey = process.env.EVM_PRIVATE_KEY;
+  
+  // select chain prompt
   const chains = listLocalChains();
-  const names = chains.map((chain) => chain.name);
-
-  console.log(names);
-  const targetChain = await readSenderNetwork();
-  const chain = chains.find((chain) => chain.name === targetChain);
+  const chainNames = chains.map((chain) => chain.name);
+  const selectedChain = await readPrompt("list", "sourceChain", "Select your source chain:", chainNames);
+  // get the source chain object
+  const chain = chains.find((chain) => chain.name === selectedChain);
 
   // Create wallet instance with provider
   const provider = new ethers.providers.JsonRpcProvider(chain["rpc"]);
@@ -39,7 +42,7 @@ async function main() {
   const networkInfo = await provider.getNetwork();
 
   console.log(
-    `\n-> Connected to ${chain["name"]} (Chain ID: ${chain["chainId"]})`
+    `\n✅ Connected to ${chain["name"]} (Chain ID: ${chain["chainId"]})`
   );
 
   // // Get wallet address and balance
@@ -50,14 +53,16 @@ async function main() {
   console.log(`💰 Balance: ${ethers.utils.formatEther(balance)} ETH`);
 
   const tlock = tLock();
-  const select = await readSelection();
+  // const select = await readSelection();
+  const select = await readAction();
   switch (select) {
+    // Send a message
     case 1:
-      const rlData = await readFromTerminal(chain.name);
-      const sendMessage = await userASendsMessage(
+      const data = await readSendMessage(chain.name);
+      await userASendsMessage(
         wallet,
         chain.contract.address,
-        rlData
+        data
       );
       break;
     case 2:

@@ -137,3 +137,27 @@ dist
 
 # Artifacts
 artifacts/
+
+# Cashe
+cashe/
+
+# VSCode
+.vscode/
+
+# Hardhat
+cache_hardhat/
+
+# Node
+node_modules
+
+# Env
+.env
+
+# Coverage
+coverage
+coverage.json
+coverage/
+
+# Solidity Coverage
+allFiredEvents  
+scTopics        

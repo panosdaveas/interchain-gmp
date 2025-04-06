@@ -4,7 +4,7 @@
   "description": "time-locked general message passing with interoperability",
   "main": "index.js",
   "scripts": {
-    "test": "node interchain/scripts/runTest",
+    "test": "node index.js",
     "start": "node interchain/scripts/runStart",
     "setup": "node interchain/scripts/runSetupEnv",
     "build": "rm -rf artifacts && npx hardhat clean && npx hardhat compile",
@@ -34,6 +34,7 @@
     "dotenv": "^16.4.7",
     "drand-client": "^1.2.6",
     "ethers": "^5.8.0",
+    "inquirer": "^8.2.6",
     "path": "^0.12.7",
     "require": "^2.4.20",
     "tlock-js": "^0.9.0"

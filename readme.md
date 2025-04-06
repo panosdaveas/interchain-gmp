@@ -19,15 +19,16 @@ Run the devnet node in a separate terminal:
 ```
 npm run start
 ```
+## Open a new terminal window
 
-Deplay our contract on devnet:
+Deploy our contract on devnet:
 ```
 npm run deploy local
 ```
 
-Run the app.js file:
+Run the index.js file:
 ```
-node app.js
+npm run test
 ```
 
 Follow the instructions on terminal to send a message from chain A to chain B.
