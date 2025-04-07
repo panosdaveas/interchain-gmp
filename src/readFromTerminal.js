@@ -59,12 +59,13 @@ async function readSendMessage(sourceChain) {
   };
   // Handle the async function with promises
   const formattedResult = await formattedData(data);
+  console.log('\n'); 
   console.log(
-    `\n-> Sending message from: ${formattedResult.sourceChain} \n` +
-    `-> to: ${formattedResult.destinationChain} \n` +
-    `-> on contract: ${formattedResult.contractAddress} \n` +
-    `-> with recipient: ${formattedResult.recipientAddress} \n` +
-    `-> and payload: "${formattedResult.payload}" \n` +
+    `-> Sending message from: ${formattedResult.sourceChain}\n`+
+    `-> to: ${formattedResult.destinationChain}\n`+
+    `-> on contract: ${formattedResult.contractAddress}\n`+
+    `-> with recipient: ${formattedResult.recipientAddress}\n`+
+    `-> and payload: "${formattedResult.payload}"\n`+
     `-> decryptable in: ${formattedResult.decryptionTime} minutes\n`
   );      
   return formattedResult;

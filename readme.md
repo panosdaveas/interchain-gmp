@@ -32,7 +32,7 @@ npm run deploy local
 
 Deploy your contract on testnet EVM chains:
 ```
-npm run deploy [local|testnet] "Avalanche" "Moonbeam"
+npm run deploy testnet "Avalanche" "Moonbeam"
 ```
 
 Run the index.js file:

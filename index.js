@@ -24,7 +24,7 @@ async function main() {
   const env = process.argv[2] || 'local';
   process.env.ENV = env;
   checkEnv(env);
-  console.log(env);
+  console.log( 'abc'.padStart(10));
   //   const wallet = getWallet();
   //   const chain = chains.find((chain) => chain.name === "Avalanche");
   //   const provider = getDefaultProvider(chain.rpc);
