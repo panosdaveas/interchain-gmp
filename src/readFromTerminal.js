@@ -3,8 +3,9 @@ const { listLocalChains } = require("../interchain/scripts/libs");
 const { tLock } = require("../timelock/timeLock.js");
 const inquirer = require("inquirer");
 
+const env = process.env.ENV;
 const tlock = tLock();
-const chains = listLocalChains();
+const chains = listLocalChains(env);
 const chainNames = chains.map((chain) => chain.name);
 
 async function encrypt(data) {

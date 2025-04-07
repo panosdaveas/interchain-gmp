@@ -19,18 +19,22 @@ const {
   getWallet,
   listLocalChains,
   getTestnetChains,
+  checkEnv,
 } = require("./interchain/scripts/libs");
 const { configPath } = require("./interchain/config");
 // const { spinnerTest } = require("./src/richConsole.js");
 
 
 async function main() {
+  const privateKey = process.env.EVM_PRIVATE_KEY;
+  const env = process.env.ENV;
+  checkEnv(env);
   //   const wallet = getWallet();
   //   const chain = chains.find((chain) => chain.name === "Avalanche");
   //   const provider = getDefaultProvider(chain.rpc);
-  const privateKey = process.env.EVM_PRIVATE_KEY;
   
   // select chain prompt
+  console.log("You are connected to", env)
   const chains = listLocalChains();
   const chainNames = chains.map((chain) => chain.name);
   const selectedChain = await readPrompt("list", "sourceChain", "Select your source chain:", chainNames);
@@ -40,7 +44,6 @@ async function main() {
   // Create wallet instance with provider
   const provider = new ethers.providers.JsonRpcProvider(chain["rpc"]);
   const wallet = new ethers.Wallet(privateKey, provider);
-
   console.log(
     `\n✅ Connected to ${chain["name"]} (Chain ID: ${chain["chainId"]})`
   );

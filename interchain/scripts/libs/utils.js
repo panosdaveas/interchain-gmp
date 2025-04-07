@@ -47,12 +47,15 @@ function getEVMChains(env, chains = []) {
 }
 
 function listLocalChains() {
-  const env = 'local'
+  const env = process.env.ENV;
   checkEnv(env);
 
   if (env === "local") {
     return fs
       .readJsonSync(configPath.localEvmChains)
+  } else {
+    return fs
+      .readJsonSync(configPath.testnetChains)
   }
 }
 

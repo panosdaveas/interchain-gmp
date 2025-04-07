@@ -163,4 +163,4 @@ allFiredEvents
 scTopics        
 
 # Generated chain-info
-chain-info/
+interchain/chain-config/testnet-evm.json
