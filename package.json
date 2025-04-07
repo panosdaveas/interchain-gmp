@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node index.js",
-    "start": "node interchain/scripts/runStart",
-    "setup": "node interchain/scripts/runSetupEnv",
+    "setup": "node interchain/scripts/runStart",
+    "start": "node index.js",
     "build": "rm -rf artifacts && npx hardhat clean && npx hardhat compile",
     "deploy": "node interchain/scripts/runDeploy",
     "check-balance": "node interchain/scripts/runCheckBalance"

@@ -39,7 +39,6 @@ function tLock() {
         MAINNET_CHAIN_INFO
       );
       const age = err.timeToDecryption;
-      // console.error(err.messageStr);
       return { age, tlocked };
       // throw error;
     }

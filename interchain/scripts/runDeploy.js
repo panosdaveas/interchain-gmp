@@ -112,7 +112,7 @@ function isSerializableContract(obj) {
 }
 
 // Main execution
-const env = process.argv[2];
+const env = process.env.ENV;
 const chainsToDeploy = process.argv.slice(3);
 
 // Check the environment. If it is not valid, exit.

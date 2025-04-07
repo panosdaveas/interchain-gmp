@@ -4,7 +4,7 @@
     "id": "Avalanche",
     "axelarId": "Avalanche",
     "chainId": 43113,
-    "rpc": "https://testnet.snowtrace.io/",
+    "rpc": "https://api.avax-test.network/ext/bc/C/rpc",
     "tokenSymbol": "AVAX",
     "contracts": {
       "AxelarGateway": {
@@ -138,7 +138,7 @@
     "id": "Moonbeam",
     "axelarId": "Moonbeam",
     "chainId": 1287,
-    "rpc": "https://moonbase.moonscan.io/",
+    "rpc": "https://moonbeam-alpha.api.onfinality.io/public",
     "tokenSymbol": "DEV",
     "contracts": {
       "AxelarGateway": {

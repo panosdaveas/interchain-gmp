@@ -15,27 +15,23 @@ const {
 const { parseMessagesAndDecrypt } = require("./timelock/utils");
 
 const {
-  getEVMChains,
-  getWallet,
-  listLocalChains,
-  getTestnetChains,
+  getChains,
   checkEnv,
 } = require("./interchain/scripts/libs");
-const { configPath } = require("./interchain/config");
-// const { spinnerTest } = require("./src/richConsole.js");
-
 
 async function main() {
   const privateKey = process.env.EVM_PRIVATE_KEY;
-  const env = process.env.ENV;
+  const env = process.argv[2] || 'local';
+  process.env.ENV = env;
   checkEnv(env);
+  console.log(env);
   //   const wallet = getWallet();
   //   const chain = chains.find((chain) => chain.name === "Avalanche");
   //   const provider = getDefaultProvider(chain.rpc);
   
   // select chain prompt
-  console.log("You are connected to", env)
-  const chains = listLocalChains();
+  console.log("Current Environment", env)
+  const chains = getChains();
   const chainNames = chains.map((chain) => chain.name);
   const selectedChain = await readPrompt("list", "sourceChain", "Select your source chain:", chainNames);
   // get the source chain object

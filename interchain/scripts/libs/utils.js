@@ -46,7 +46,7 @@ function getEVMChains(env, chains = []) {
     }));
 }
 
-function listLocalChains() {
+function getChains() {
   const env = process.env.ENV;
   checkEnv(env);
 
@@ -211,7 +211,7 @@ function getDefaultChains(env) {
         return ['Avalanche', 'Fantom', 'Moonbeam', 'Polygon', 'Ethereum'];
     }
 
-    return ['Avalanche'];
+    return ['Avalanche', 'Fantom', 'Moonbeam', 'Polygon', 'Ethereum'];
 }
 
 /**
@@ -268,7 +268,7 @@ module.exports = {
     getExamplePath,
     readChainConfig,
     sanitizeEventArgs,
-    listLocalChains,
+    getChains,
     deserializeContract,
     getTestnetChains,
 };
