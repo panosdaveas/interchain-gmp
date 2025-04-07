@@ -3,7 +3,7 @@
     "name": "Moonbeam",
     "chainId": 1287,
     "gateway": "0x5769D84DD62a6fD969856c75c7D321b84d455929",
-    "rpc": "https://moonbeam-alpha.api.onfinality.io/public",
+    "rpc": "https://moonbase.moonscan.io/",
     "gasService": "0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6",
     "tokenName": "DEV",
     "tokenSymbol": "DEV",
@@ -19,7 +19,7 @@
   {
     "name": "Avalanche",
     "chainId": 43113,
-    "rpc": "https://api.avax-test.network/ext/bc/C/rpc",
+    "rpc": "https://testnet.snowtrace.io/",
     "gateway": "0xC249632c2D40b9001FE907806902f63038B737Ab",
     "gasService": "0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6",
     "tokenName": "Avax",
