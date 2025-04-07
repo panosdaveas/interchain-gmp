@@ -62,11 +62,13 @@ function listLocalChains() {
  * @returns {Chain[]} - The chain objects.
  */
 function getTestnetChains(chains = []) {
-    const _path = path.join(__dirname, '../chain-info/testnet-evm.json');
+    // const _path = path.join(__dirname, '../chain-info/testnet-evm.json');
+    const _path = path.join(configPath.testnetChains);
     let testnet = [];
     if (fs.existsSync(_path)) {
       testnet = fs
-        .readJsonSync(path.join(__dirname, '../chain-info/testnet-evm.json'))
+        // .readJsonSync(path.join(__dirname, '../chain-info/testnet-evm.json'))
+        .readJsonSync(path.join(configPath.testnetChains))
         .filter((chain) => chains.includes(chain.name));
     }
 

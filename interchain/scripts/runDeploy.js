@@ -1,6 +1,7 @@
 "use strict";
 
 const path = require("path");
+const fs = require('fs-extra');
 const { getDefaultProvider, utils } = require("ethers");
 const {
   utils: { setJSON, deployContract },
@@ -34,9 +35,7 @@ async function chainDeploy(chain, wallet) {
  * @param {Object} example - The example to deploy.
  */
 async function deploy(env, chains, wallet) {
-  // await deployOnAltChain(example);
   await deployOnEvmChain(chains, wallet);
-  // await postDeploy(chains, wallet);
 
   // Serialize the contracts by storing the human-readable abi with the address in the json file.
   for (const chain of chains) {
@@ -45,18 +44,38 @@ async function deploy(env, chains, wallet) {
         chain[key] = serializeContract(chain[key]);
       }
     }
-
     // Remove the wallet from the chain objects.
     delete chain.wallet;
   }
 
-  // Write the chain objects to the json file.
-  // if (env == "local") {
-  //   setJSON(chains, configPath.localEvmChains);
-  // } else {
-  //   setJSON(chains, configPath.testnetChains);
-  // }
-  setJSON(chains, `./chain-info/${env}-evm.json`);
+  // Path to the JSON file
+  // const filePath = `./chain-info/${env}-evm.json`;
+  const filePath = `./interchain/chain-config/${env}-evm.json`;
+
+  // Check if file exists and read it, otherwise initialize empty array
+  let existingChains = [];
+  if (fs.existsSync(filePath)) {
+    existingChains = fs.readJsonSync(filePath);
+  }
+
+  // Merge chains - Add new chains or update existing ones
+  for (const newChain of chains) {
+    // Check if chain with same name already exists
+    const existingIndex = existingChains.findIndex(
+      (chain) => chain.name === newChain.name
+    );
+
+    if (existingIndex >= 0) {
+      // Update existing chain
+      existingChains[existingIndex] = newChain;
+    } else {
+      // Add new chain
+      existingChains.push(newChain);
+    }
+  }
+
+  // Write merged chains back to file
+  setJSON(existingChains, filePath);
 }
 
 // Deploy the contracts.
