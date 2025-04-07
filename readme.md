@@ -15,13 +15,15 @@ Build the smart contracts:
 npm build
 ```
 
-Run the devnet node in a separate terminal:
+Run the local devnet nodes:
 ```
 npm run start
 ```
 ## Open a new terminal window
 
-Deploy our contract on devnet:
+Export your private key again.
+
+Deploy your contract on devnet:
 ```
 npm run deploy local
 ```

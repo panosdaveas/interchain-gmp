@@ -40,6 +40,7 @@ async function readPrompt(type, name, message, choices) {
 }
 
 async function readSendMessage(sourceChain) {
+  console.log("\n");
   const destinationChain = await readPrompt("list", "destinationChain", "Select the destination chain:", chainNames);
   // rl.question("\nEnter your destination chain name: ", (destinationChain) => {
   const recipientAddress = await readPrompt('input', 'recipientAddress', 'Enter the recipient address:');
@@ -68,28 +69,8 @@ async function readSendMessage(sourceChain) {
   return formattedResult;
   };
 
-  function readSelection() {
-    return new Promise((resolve) => {
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
-
-      console.log("Available options:");
-      let i = 1;
-      console.log(`[${i}] Send a message`);
-      i++;
-      console.log(`[${i}] Read all messages`);
-      i++;
-
-      rl.question("\nEnter your selection: ", (selection) => {
-        rl.close();
-        resolve(Number(selection.trim())); // Pass the result to the next function
-      });
-    });
-  }
-
   async function readAction() {
+    console.log("\n");
     const actions = ["[1] Send a message", "[2] Read all messages"];
     const choices = actions.map((action, index) => ({
       name: action, // What's displayed to the user
@@ -109,7 +90,6 @@ async function readSendMessage(sourceChain) {
 
   module.exports = {
     readSendMessage,
-    readSelection,
     readAction,
     readPrompt,
   };

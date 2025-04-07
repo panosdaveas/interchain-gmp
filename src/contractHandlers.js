@@ -139,7 +139,7 @@ class CrossChainMessenger {
       sourceChain,
       destinationChain,
       700000,
-      1.1,
+      2,
       undefined,
       undefined,
       payload

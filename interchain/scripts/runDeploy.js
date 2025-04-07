@@ -55,8 +55,8 @@ async function deploy(env, chains, wallet) {
   }
 
   // Write the chain objects to the json file.
-  setJSON(chains, configPath.localEvmChains);
-  // setJSON(chains, `./chain-config/${env}-evm.json`);
+  // setJSON(chains, configPath.localEvmChains);
+  setJSON(chains, `./chain-config/${env}-evm.json`);
 }
 
 // Deploy the contracts.

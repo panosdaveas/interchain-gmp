@@ -20,7 +20,7 @@ const {
   listLocalChains,
 } = require("./interchain/scripts/libs");
 const { configPath } = require("./interchain/config");
-const { sleep } = require("@axelar-network/axelarjs-sdk");
+// const { spinnerTest } = require("./src/richConsole.js");
 
 
 async function main() {
@@ -39,7 +39,6 @@ async function main() {
   // Create wallet instance with provider
   const provider = new ethers.providers.JsonRpcProvider(chain["rpc"]);
   const wallet = new ethers.Wallet(privateKey, provider);
-  const networkInfo = await provider.getNetwork();
 
   console.log(
     `\n✅ Connected to ${chain["name"]} (Chain ID: ${chain["chainId"]})`
@@ -53,7 +52,6 @@ async function main() {
   console.log(`💰 Balance: ${ethers.utils.formatEther(balance)} ETH`);
 
   const tlock = tLock();
-  // const select = await readSelection();
   const select = await readAction();
   switch (select) {
     // Send a message
