@@ -18,6 +18,7 @@ const {
   getEVMChains,
   getWallet,
   listLocalChains,
+  getTestnetChains,
 } = require("./interchain/scripts/libs");
 const { configPath } = require("./interchain/config");
 // const { spinnerTest } = require("./src/richConsole.js");

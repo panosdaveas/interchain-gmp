@@ -161,3 +161,6 @@ coverage/
 # Solidity Coverage
 allFiredEvents  
 scTopics        
+
+# Generated chain-info
+chain-info/

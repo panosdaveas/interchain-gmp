@@ -13,11 +13,6 @@ const {
 const { configPath } = require("../config");
 const CallContract = rootRequire("./artifacts/contracts/tl_ic_gmp.sol/CrossChainMessaging.json");
 
-// Returns the path of the example file
-function getExamplePath() {
-  return path.resolve(__dirname, "../../app.js");
-}
-
 async function chainDeploy(chain, wallet) {
   console.log(`Deploying CallContract for ${chain.name}.`);
   chain.contract = await deployContract(wallet, CallContract, [
@@ -41,6 +36,7 @@ async function chainDeploy(chain, wallet) {
 async function deploy(env, chains, wallet) {
   // await deployOnAltChain(example);
   await deployOnEvmChain(chains, wallet);
+  // await postDeploy(chains, wallet);
 
   // Serialize the contracts by storing the human-readable abi with the address in the json file.
   for (const chain of chains) {
@@ -55,8 +51,12 @@ async function deploy(env, chains, wallet) {
   }
 
   // Write the chain objects to the json file.
-  setJSON(chains, configPath.localEvmChains);
-  // setJSON(chains, `./chain-config/${env}-evm.json`);
+  // if (env == "local") {
+  //   setJSON(chains, configPath.localEvmChains);
+  // } else {
+  //   setJSON(chains, configPath.testnetChains);
+  // }
+  setJSON(chains, `./chain-info/${env}-evm.json`);
 }
 
 // Deploy the contracts.
@@ -65,6 +65,17 @@ function deployOnEvmChain(chains, wallet) {
   const deploys = chains.map((chain) => {
     const provider = getDefaultProvider(chain.rpc);
     return chainDeploy(chain, wallet.connect(provider), key);
+  });
+
+  return Promise.all(deploys);
+}
+
+function postDeploy(chains, wallet) {
+  // if (!.postDeploy) return;
+
+  const deploys = chains.map((chain) => {
+    const provider = getDefaultProvider(chain.rpc);
+    return chainDeploy(chain, chains, wallet.connect(provider));
   });
 
   return Promise.all(deploys);
@@ -101,6 +112,5 @@ module.exports = {
   deploy,
   checkEnv,
   getEVMChains,
-  getExamplePath,
   getWallet,
 };

@@ -62,20 +62,20 @@ function listLocalChains() {
  * @returns {Chain[]} - The chain objects.
  */
 function getTestnetChains(chains = []) {
-    const _path = path.join(__dirname, '../../chain-config/testnet-evm.json');
+    const _path = path.join(__dirname, '../chain-info/testnet-evm.json');
     let testnet = [];
     if (fs.existsSync(_path)) {
-        testnet = fs
-            .readJsonSync(path.join(__dirname, '../../chain-config/testnet-evm.json'))
-            .filter((chain) => chains.includes(chain.name));
+      testnet = fs
+        .readJsonSync(path.join(__dirname, '../chain-info/testnet-evm.json'))
+        .filter((chain) => chains.includes(chain.name));
     }
 
     if (testnet.length < chains.length) {
-        const { testnetInfo } = require('@axelar-network/axelar-local-dev');
-        testnet = [];
-        for (const chain of chains) {
-            testnet.push(testnetInfo[chain.toLowerCase()]);
-        }
+      const { testnetInfo } = require("@axelar-network/axelar-local-dev");
+      testnet = [];
+      for (const chain of chains) {
+        testnet.push(testnetInfo[chain.toLowerCase()]);
+      }
     }
 
     // temporary fix for gas service contract address
@@ -206,7 +206,7 @@ function getDefaultChains(env) {
         return ['Avalanche', 'Fantom', 'Moonbeam', 'Polygon', 'Ethereum'];
     }
 
-    return ['Avalanche', 'Fantom', 'polygon-sepolia'];
+    return ['Avalanche'];
 }
 
 /**
@@ -265,4 +265,5 @@ module.exports = {
     sanitizeEventArgs,
     listLocalChains,
     deserializeContract,
+    getTestnetChains,
 };
