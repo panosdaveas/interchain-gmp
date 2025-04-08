@@ -1,7 +1,7 @@
 const { roundAt, timelockEncrypt, timelockDecrypt } = require("tlock-js");
-const { quicknetClient } = require("drand-client");
-const { MAINNET_CHAIN_INFO } = require("tlock-js/drand/defaults.js");
-const { localisedDecryptionMessageOrDefault } = require("./utils");
+const {
+  quicknetClient,
+} = require("drand-client");
 
 function tLock() {
   const client = quicknetClient();
@@ -27,20 +27,14 @@ function tLock() {
   };
 
   const tlDecrypt = async (ciphertext) => {
-    let tlocked = false;
     try {
+      console.log = function () {};
       const decrypted = await timelockDecrypt(ciphertext, client);
+      console.log(decrypted);
       const plaintext = decrypted.toString();
-      return { plaintext, tlocked };
+      return plaintext;
     } catch (error) {
-      tlocked = true;
-      const err = localisedDecryptionMessageOrDefault(
-        error,
-        MAINNET_CHAIN_INFO
-      );
-      const age = err.timeToDecryption;
-      return { age, tlocked };
-      // throw error;
+      throw error;
     }
   };
 

@@ -1,4 +1,3 @@
-const readline = require("node:readline");
 const { getChains } = require("../interchain/scripts/libs");
 const { tLock } = require("../timelock/timeLock.js");
 const inquirer = require("inquirer");
@@ -94,4 +93,5 @@ async function readSendMessage(sourceChain) {
     readSendMessage,
     readAction,
     readPrompt,
+    encrypt,
   };

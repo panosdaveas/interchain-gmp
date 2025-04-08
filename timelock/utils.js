@@ -1,4 +1,5 @@
 const { roundTime } = require("tlock-js");
+const { MAINNET_CHAIN_INFO } = require("tlock-js/drand/defaults.js");
 
 const errorMessage = (err) => {
   if (err instanceof Error) {
@@ -11,54 +12,50 @@ const errorMessage = (err) => {
   return "Unknown error";
 };
 
-const localisedDecryptionMessageOrDefault = (err, CHAIN_INFO) => {
-  const message = errorMessage(err);
-  const tooEarlyToDecryptErrorMessage =
-    "It's too early to decrypt the ciphertext - decryptable at round ";
-
-  if (!message.startsWith(tooEarlyToDecryptErrorMessage)) {
-    return "There was an error during decryption! Is your ciphertext valid?";
-  }
-
-  const roundNumber = Number.parseInt(
-    message.split(tooEarlyToDecryptErrorMessage)[1]
-  );
-  const timeToDecryption = new Date(roundTime(CHAIN_INFO, roundNumber));
-  const messageStr = `This message cannot be decrypted until ${timeToDecryption.toLocaleDateString()} at ${timeToDecryption.toLocaleTimeString()}`;
-  return { messageStr, timeToDecryption };
-};
-
-const getDifferenceInMinutes = (age) => {
+function getDifferenceInMinutes(age) {
   const now = new Date(); // Current time
-  const diffMin = Math.abs(now - age); // Difference in milliseconds
-  return Math.floor(diffMin / (1000 * 60) + 1); // Convert to minutes
-};
+  const ms = Math.abs(now - age); // Difference in milliseconds
+  const min = Math.floor(ms / (1000 * 60)); // Difference in minutes
+  min = Math.abs(now - age) + 1; // Round minutes
+  return { ms, min };
+}
 
-const parseMessagesAndDecrypt = async (messages, tlock) => {
-  const decryptedMessages = [];
-  for (const message of messages) {
-    const result = await tlock.tlDecrypt(message.content);
-    if (result.tlocked) {
-      const time = getDifferenceInMinutes(result.age);
-      // console.log(time);
-      decryptedMessages.push({
-        ...message,
-        ...{ age: time },
-      });
-    } else {
-      // console.log(result.plaintext);
-      decryptedMessages.push({
-        ...message,
-        ...{ content: result.plaintext },
-      });
+function extractTlockDate(payload) {
+  const lines = payload.split("\n");
+
+  for (const line of lines) {
+    try {
+      const decoded = Buffer.from(line, "base64").toString("utf8");
+      const match = decoded.match(/tlock (\d+)/);
+      if (match) {
+        const minutes = parseInt(match[1], 10);
+        const unlockDate = new Date(roundTime(MAINNET_CHAIN_INFO, minutes));
+        return unlockDate;
+      }
+    } catch (err) {
+      // not a base64 line, skip
     }
   }
-  return decryptedMessages;
-};
+
+  return null; // tlock not found
+}
+
+function appendAgeToPayload(messages) {
+  messages.forEach((message) => {
+    message.tlocked = false;
+    const unlockDate = extractTlockDate(message.content);
+    if (unlockDate) {
+      message.age = unlockDate;
+    }
+    if (message.age > Date.now()) {
+      message.tlocked = true;
+    }
+  });
+  return messages;
+}
 
 module.exports = {
   errorMessage,
-  localisedDecryptionMessageOrDefault,
   getDifferenceInMinutes,
-  parseMessagesAndDecrypt,
+  appendAgeToPayload,
 };

@@ -29,7 +29,7 @@
         "function readMessage(uint256 index) returns (address sender, string content, uint256 timestamp, string sourceChain, string destinationChain)",
         "function sendMessage(string destinationChain, string destinationAddress, address recipient, string content) payable"
       ],
-      "address": "0xBA8A5c7EbE020085e40D382A2Dcb68a4324BF503"
+      "address": "0xF815466148a15dC11708468d41A261FaE4363e21"
     }
   },
   {
@@ -62,7 +62,7 @@
         "function readMessage(uint256 index) returns (address sender, string content, uint256 timestamp, string sourceChain, string destinationChain)",
         "function sendMessage(string destinationChain, string destinationAddress, address recipient, string content) payable"
       ],
-      "address": "0xBA8A5c7EbE020085e40D382A2Dcb68a4324BF503"
+      "address": "0xb5dd9D753ebC0577E9e3754Fc50f8C101200eF1d"
     }
   },
   {
@@ -95,7 +95,7 @@
         "function readMessage(uint256 index) returns (address sender, string content, uint256 timestamp, string sourceChain, string destinationChain)",
         "function sendMessage(string destinationChain, string destinationAddress, address recipient, string content) payable"
       ],
-      "address": "0xBA8A5c7EbE020085e40D382A2Dcb68a4324BF503"
+      "address": "0xb5dd9D753ebC0577E9e3754Fc50f8C101200eF1d"
     }
   },
   {
@@ -128,7 +128,7 @@
         "function readMessage(uint256 index) returns (address sender, string content, uint256 timestamp, string sourceChain, string destinationChain)",
         "function sendMessage(string destinationChain, string destinationAddress, address recipient, string content) payable"
       ],
-      "address": "0xBA8A5c7EbE020085e40D382A2Dcb68a4324BF503"
+      "address": "0xb5dd9D753ebC0577E9e3754Fc50f8C101200eF1d"
     }
   },
   {
@@ -161,7 +161,7 @@
         "function readMessage(uint256 index) returns (address sender, string content, uint256 timestamp, string sourceChain, string destinationChain)",
         "function sendMessage(string destinationChain, string destinationAddress, address recipient, string content) payable"
       ],
-      "address": "0xBA8A5c7EbE020085e40D382A2Dcb68a4324BF503"
+      "address": "0xb5dd9D753ebC0577E9e3754Fc50f8C101200eF1d"
     }
   }
 ]
