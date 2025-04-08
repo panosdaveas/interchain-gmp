@@ -23,19 +23,20 @@ async function displayMessages(messages, tlock) {
         const diff = Date.now() - spinner.decryptionTime;
         if (
           Date.now() - spinner.decryptionTime > 0 
-          && !spinner.isDone
-        ) {
+          && !spinner.isDone)
+        {
           spinner.isDone = true;
-          if (spinner.isLocked) {
+          // if (spinner.isLocked) {
             spinner.result = "Unlocking...";
             const interval = setInterval(async () => {
               const result = await tlock.tlDecrypt(spinner.payload);
               spinner.result = `Transaction ${index + 1}: ${result}`;
               clearInterval(interval);
             }, 80);
-          } else {
-            spinner.result = `Transaction ${index + 1}: ${spinner.payload}`; 
-          }
+          // } 
+          // else {
+            // spinner.result = `Transaction ${index + 1}: ${spinner.payload}`; 
+          // }
         }
 
         // Advance frame for active spinners
