@@ -1,4 +1,4 @@
-### timelocked interchain general mesage passing
+### interchain general mesage passing supporting timelocked messages
 
 Install the dependencies:
 ```
@@ -34,7 +34,7 @@ Deploy your contract on all local EVM chains:
 npm run deploy local
 ```
 
-Or, deploy your contract on testnet EVM chains:
+Or, deploy your contract on testnet EVM chains, e.g.:
 ```
 npm run deploy testnet "Avalanche" "Moonbeam"
 ```
