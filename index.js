@@ -1,4 +1,4 @@
-const { displayMessages } = require("./src/test.js");
+const { displayMessages } = require("./src/printMsgOnTerminal.js");
 const {
   readSendMessage,
   readAction,
@@ -55,15 +55,18 @@ async function main() {
     // Send a message
     case 1:
       sendDummyTx(wallet, chains, chain);
+
+      // **Uncomment for manual input**
       // const data = await readSendMessage(chain.name);
       // await userASendsMessage(
       //   wallet,
       //   chain.contract.address,
       //   data
       // );
+
       break;
     case 2:
-      // Get all messages from contract
+      // Get all messages from contract for the logged address
       const messages = await userBReadsMessages(wallet, chain.contract.address);
       console.log("\nYou have", messages.length, "messages:\n");
       const formattedMessages = await appendAgeToPayload(messages);
