@@ -1,5 +1,7 @@
 const logUpdate = require("log-update");
 const cliSpinners = require("cli-spinners");
+const chalk = require("chalk");
+const {truncate} = require("./utils.js");
 
 async function displayMessages(messages, tlock) {
   // Create state for all spinners
@@ -37,7 +39,7 @@ async function displayMessages(messages, tlock) {
 
           // Start the decryption process
           tlock.tlDecrypt(spinner.payload).then((result) => {
-            spinner.result = `${truncate(messages[index].sender)}: ${result}`;
+            spinner.result = `${chalk.gray(truncate(messages[index].sender))}: ${result}`;
             spinner.isDone = true; // Only mark as done when decryption is complete
           });
         }
@@ -49,7 +51,7 @@ async function displayMessages(messages, tlock) {
             spinner.text
           } in ${Math.abs(diff)}`;
         } else {
-          return `✓ ${spinner.result} \n  ${messages[index].sourceChain}->${messages[index].destinationChain}`;
+          return `✓ ${spinner.result} \n  ${chalk.yellow(messages[index].sourceChain)} -> ${chalk.yellow(messages[index].destinationChain)}`;
         }
       })
       .join("\n");
@@ -61,10 +63,6 @@ async function displayMessages(messages, tlock) {
       clearInterval(interval);
     }
   }, 80);
-}
-
-function truncate(str) {
-  return str.slice(0, 4) + "..." + str.slice(-4);
 }
 
 module.exports = {
