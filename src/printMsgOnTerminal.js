@@ -1,6 +1,5 @@
 const logUpdate = require("log-update");
 const cliSpinners = require("cli-spinners");
-const { message } = require("blessed");
 
 async function displayMessages(messages, tlock) {
   // Create state for all spinners
