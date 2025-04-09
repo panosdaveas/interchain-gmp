@@ -13,6 +13,8 @@ async function displayMessages(messages, tlock) {
     decryptionTime: msg.age,
     payload: msg.content,
     isLocked: msg.tlocked,
+    isUnlocking: false,
+    isUnlocking: false,
   }));
 
   // Animation interval
@@ -26,8 +28,10 @@ async function displayMessages(messages, tlock) {
           !spinner.isDecrypting &&
           !spinner.isDone
         ) {
+          spinner.isUnlocking = true; // Mark that unlocking has started
           spinner.isDecrypting = true; // Mark that decryption has started
-          spinner.frames = cliSpinners.squareCorners.frames; // Reset the frames
+          spinner.frames = cliSpinners.squareCorners.frames;
+          spinner.text = "Unlocking...";
           spinner.result = "Unlocking...";
 
           // Start the decryption process
