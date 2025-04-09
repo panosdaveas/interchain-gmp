@@ -1,5 +1,6 @@
 const logUpdate = require("log-update");
 const cliSpinners = require("cli-spinners");
+const { message } = require("blessed");
 
 async function displayMessages(messages, tlock) {
   // Create state for all spinners
@@ -15,6 +16,7 @@ async function displayMessages(messages, tlock) {
     isLocked: msg.tlocked,
     isUnlocking: false,
     isUnlocking: false,
+    details: "details"
   }));
 
   // Animation interval
@@ -36,7 +38,7 @@ async function displayMessages(messages, tlock) {
 
           // Start the decryption process
           tlock.tlDecrypt(spinner.payload).then((result) => {
-            spinner.result = `Transaction ${index + 1}: ${result}`;
+            spinner.result = `${truncate(messages[index].sender)}: ${result}`;
             spinner.isDone = true; // Only mark as done when decryption is complete
           });
         }
@@ -48,7 +50,7 @@ async function displayMessages(messages, tlock) {
             spinner.text
           } in ${Math.abs(diff)}`;
         } else {
-          return `✓ ${spinner.result}`;
+          return `✓ ${spinner.result} \n  ${messages[index].sourceChain}->${messages[index].destinationChain}`;
         }
       })
       .join("\n");
