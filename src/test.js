@@ -19,30 +19,30 @@ async function displayMessages(messages, tlock) {
   const interval = setInterval(() => {
     const output = spinners
       .map((spinner, index) => {
-        // Check if this spinner is done
+        // Check if this spinner is ready to start decryption
         const diff = Date.now() - spinner.decryptionTime;
         if (
-          Date.now() - spinner.decryptionTime > 0 
-          && !spinner.isDone)
-        {
-          spinner.isDone = true;
-          // if (spinner.isLocked) {
-            spinner.result = "Unlocking...";
-            const interval = setInterval(async () => {
-              const result = await tlock.tlDecrypt(spinner.payload);
-              spinner.result = `Transaction ${index + 1}: ${result}`;
-              clearInterval(interval);
-            }, 80);
-          // } 
-          // else {
-            // spinner.result = `Transaction ${index + 1}: ${spinner.payload}`; 
-          // }
+          Date.now() - spinner.decryptionTime > 0 &&
+          !spinner.isDecrypting &&
+          !spinner.isDone
+        ) {
+          spinner.isDecrypting = true; // Mark that decryption has started
+          spinner.frames = cliSpinners.squareCorners.frames; // Reset the frames
+          spinner.result = "Unlocking...";
+
+          // Start the decryption process
+          tlock.tlDecrypt(spinner.payload).then((result) => {
+            spinner.result = `Transaction ${index + 1}: ${result}`;
+            spinner.isDone = true; // Only mark as done when decryption is complete
+          });
         }
 
         // Advance frame for active spinners
         if (!spinner.isDone) {
           spinner.frameIndex = (spinner.frameIndex + 1) % spinner.frames.length;
-          return `${spinner.frames[spinner.frameIndex]} ${spinner.text} in ${Math.abs(diff)}`;
+          return `${spinner.frames[spinner.frameIndex]} ${
+            spinner.text
+          } in ${Math.abs(diff)}`;
         } else {
           return `✓ ${spinner.result}`;
         }
@@ -51,7 +51,7 @@ async function displayMessages(messages, tlock) {
 
     logUpdate(output);
 
-    // If all spinners are done, clear the interval
+    // Only clear the interval when all spinners are truly done (not just started decrypting)
     if (spinners.every((s) => s.isDone)) {
       clearInterval(interval);
     }
