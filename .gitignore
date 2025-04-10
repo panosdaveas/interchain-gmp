@@ -139,7 +139,7 @@ dist
 artifacts/
 
 # Cashe
-cashe/
+cache/
 
 # VSCode
 .vscode/
