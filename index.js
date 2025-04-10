@@ -6,6 +6,7 @@ import {
   readPrompt,
 } from "./src/readFromTerminal.js";
 import sendDummyTx from "./src/utils.js";
+import chalk from "chalk";
 import { appendAgeToPayload } from "./timelock/utils.js";
 
 import { ethers } from "ethers";
@@ -20,12 +21,10 @@ import { getChains, checkEnv } from "./interchain/scripts/libs/index.js";
 async function main() {
   const privateKey = process.env.EVM_PRIVATE_KEY;
   const env = process.env.ENV;
-  // const env = process.argv[2] || "local";
-  // process.env.ENV = env;
   checkEnv(env);
 
   // select chain prompt
-  console.log("Current Environment", env);
+  console.log("\nCurrent Environment:", chalk.bold.italic(env.toUpperCase()));
   const chains = getChains();
   const chainNames = chains.map((chain) => chain.name);
   const selectedChain = await readPrompt(
@@ -41,7 +40,7 @@ async function main() {
   const provider = new ethers.providers.JsonRpcProvider(chain["rpc"]);
   const wallet = new ethers.Wallet(privateKey, provider);
   console.log(
-    `\n✅ Connected to ${chain["name"]} (Chain ID: ${chain["chainId"]})`
+    `\n✅ Connected to ${chalk.bold(chain["name"])} (Chain ID: ${chain["chainId"]})`
   );
 
   // // Get wallet address and balance
