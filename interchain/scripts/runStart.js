@@ -1,7 +1,7 @@
-const { ethers } = require("ethers");
-const { createAndExport, EvmRelayer } = require("@axelar-network/axelar-local-dev");
-const { configPath } = require('../config');
-const { getWallet } = require("./libs");
+import { ethers } from 'ethers';
+import { createAndExport, EvmRelayer } from '@axelar-network/axelar-local-dev';
+import { configPath } from '../config/index.js';
+import { getWallet } from './libs/index.js';
 
 // Create an EVM relayer
 const evmRelayer = new EvmRelayer();
@@ -72,7 +72,7 @@ const chains = [];
 // Start the chains.
 start(fundAddresses, chains);
 
-module.exports = {
+export {
   start,
   evmRelayer,
   relayers,

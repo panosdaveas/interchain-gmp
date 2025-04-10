@@ -139,7 +139,7 @@ dist
 artifacts/
 
 # Cashe
-cashe/
+cache/
 
 # VSCode
 .vscode/
@@ -163,4 +163,8 @@ allFiredEvents
 scTopics        
 
 # Generated chain-info
+interchain/chain-config/testnet-evm.json
+
+.DS_Store
+
 interchain/chain-config/testnet-evm.json

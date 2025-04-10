@@ -1,8 +1,7 @@
 // Required imports
-const { ethers } = require("ethers");
-const { AxelarQueryAPI, Environment, CHAINS } = require("@axelar-network/axelarjs-sdk");
-const myContract = require("../artifacts/contracts/tl_ic_gmp.sol/CrossChainMessaging.json"
-);
+import { ethers } from "ethers";
+import { AxelarQueryAPI, Environment, CHAINS } from "@axelar-network/axelarjs-sdk";
+import myContract from "../artifacts/contracts/tl_ic_gmp.sol/CrossChainMessaging.json" assert { type: "json" };
 
 // Class to handle cross-chain messaging
 class CrossChainMessenger {
@@ -178,7 +177,6 @@ async function userASendsMessage(wallet, sourceContractAddress, data) {
       data.recipientAddress, // User B's address
       data.payload // Message content
     );
-    console.log(data);
 
     return receipt;
   } catch (error) {
@@ -205,7 +203,7 @@ async function userBReadsMessages(wallet, contractAddress) {
   }
 }
 
-module.exports = {
+export {
   userASendsMessage,
   userBReadsMessages,
 };

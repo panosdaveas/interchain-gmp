@@ -1,29 +1,30 @@
-const { displayMessages } = require("./src/printMsgOnTerminal.js");
-const {
+/* eslint-disable no-unused-vars */
+import { displayMessages } from "./src/printMsgOnTerminal.js";
+import {
   readSendMessage,
   readAction,
   readPrompt,
-} = require("./src/readFromTerminal.js");
-const { sendDummyTx } = require("./src/utils.js");
-const { appendAgeToPayload } = require("./timelock/utils.js");
+} from "./src/readFromTerminal.js";
+import sendDummyTx from "./src/utils.js";
+import chalk from "chalk";
+import { appendAgeToPayload } from "./timelock/utils.js";
 
-const ethers = require("ethers");
-const { tLock } = require("./timelock/timeLock.js");
-const {
+import { ethers } from "ethers";
+import { tLock } from "./timelock/timeLock.js";
+import {
   userASendsMessage,
   userBReadsMessages,
-} = require("./src/contractHandlers.js");
+} from "./src/contractHandlers.js";
 
-const { getChains, checkEnv } = require("./interchain/scripts/libs");
+import { getChains, checkEnv } from "./interchain/scripts/libs/index.js";
 
 async function main() {
   const privateKey = process.env.EVM_PRIVATE_KEY;
-  const env = process.argv[2] || "local";
-  process.env.ENV = env;
+  const env = process.env.ENV;
   checkEnv(env);
 
   // select chain prompt
-  console.log("Current Environment", env);
+  console.log("\nCurrent Environment:", chalk.bold.italic(env.toUpperCase()));
   const chains = getChains();
   const chainNames = chains.map((chain) => chain.name);
   const selectedChain = await readPrompt(
@@ -39,7 +40,7 @@ async function main() {
   const provider = new ethers.providers.JsonRpcProvider(chain["rpc"]);
   const wallet = new ethers.Wallet(privateKey, provider);
   console.log(
-    `\n✅ Connected to ${chain["name"]} (Chain ID: ${chain["chainId"]})`
+    `\n✅ Connected to ${chalk.bold(chain["name"])} (Chain ID: ${chain["chainId"]})`
   );
 
   // // Get wallet address and balance

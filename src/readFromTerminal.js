@@ -1,6 +1,6 @@
-const { getChains } = require("../interchain/scripts/libs");
-const { tLock } = require("../timelock/timeLock.js");
-const inquirer = require("inquirer");
+import { getChains } from "../interchain/scripts/libs/index.js";
+import { tLock } from "../timelock/timeLock.js";
+import inquirer from "inquirer";
 
 const env = process.env.ENV;
 const tlock = tLock();
@@ -42,7 +42,6 @@ async function readPrompt(type, name, message, choices) {
 async function readSendMessage(sourceChain) {
   console.log("\n");
   const destinationChain = await readPrompt("list", "destinationChain", "Select the destination chain:", chainNames);
-  // rl.question("\nEnter your destination chain name: ", (destinationChain) => {
   const recipientAddress = await readPrompt('input', 'recipientAddress', 'Enter the recipient address:');
   const payload = await readPrompt('input', 'payload', 'Enter your message:');
   const decryptionTime = await readPrompt('input', 'decryptionTime', 'Enter age in minutes:');
@@ -68,30 +67,30 @@ async function readSendMessage(sourceChain) {
     `-> decryptable in: ${formattedResult.decryptionTime} minutes\n`
   );      
   return formattedResult;
-  };
+}
 
-  async function readAction() {
-    console.log("\n");
-    const actions = ["[1] Send a message", "[2] Read all messages"];
-    const choices = actions.map((action, index) => ({
-      name: action, // What's displayed to the user
-      value: { action, index }, // The actual value returned when selected
-    }));
-    const answer = await inquirer.prompt([
-      {
-        type: "list",
-        name: "selection",
-        message: "Select your action:",
-        choices: choices,
-      },
-    ]);
-    const { action, index } = answer.selection;
-    return index + 1;
-  }
+async function readAction() {
+  console.log("\n");
+  const actions = ["[1] Send a message", "[2] Read all messages"];
+  const choices = actions.map((action, index) => ({
+    name: action, // What's displayed to the user
+    value: { action, index }, // The actual value returned when selected
+  }));
+  const answer = await inquirer.prompt([
+    {
+      type: "list",
+      name: "selection",
+      message: "Select your action:",
+      choices: choices,
+    },
+  ]);
+  const { action, index } = answer.selection;
+  return index + 1;
+}
 
-  module.exports = {
-    readSendMessage,
-    readAction,
-    readPrompt,
-    encrypt,
-  };
+export {
+  readSendMessage,
+  readAction,
+  readPrompt,
+  encrypt,
+};
