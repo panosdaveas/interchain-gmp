@@ -177,7 +177,6 @@ async function userASendsMessage(wallet, sourceContractAddress, data) {
       data.recipientAddress, // User B's address
       data.payload // Message content
     );
-    console.log(data);
 
     return receipt;
   } catch (error) {

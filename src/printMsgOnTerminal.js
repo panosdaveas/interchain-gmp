@@ -39,7 +39,7 @@ async function displayMessages(messages, tlock) {
 
           // Start the decryption process
           tlock.tlDecrypt(spinner.payload).then((result) => {
-            spinner.result = `${chalk.gray(truncate(messages[index].sender))}: ${result}`;
+            spinner.result = `${chalk.yellow(messages[index].sourceChain)} -> ${chalk.yellow(messages[index].destinationChain)} ${chalk.gray(truncate(messages[index].sender))}: ${result}`;
             spinner.isDone = true; // Only mark as done when decryption is complete
           });
         }
@@ -51,7 +51,7 @@ async function displayMessages(messages, tlock) {
             spinner.text
           } in ${Math.abs(diff)}`;
         } else {
-          return `✓ ${spinner.result} \n  ${chalk.yellow(messages[index].sourceChain)} -> ${chalk.yellow(messages[index].destinationChain)}`;
+          return `✓ ${spinner.result}`;
         }
       })
       .join("\n");

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { displayMessages } from "./src/printMsgOnTerminal.js";
 import {
   readSendMessage,
@@ -18,8 +19,9 @@ import { getChains, checkEnv } from "./interchain/scripts/libs/index.js";
 
 async function main() {
   const privateKey = process.env.EVM_PRIVATE_KEY;
-  const env = process.argv[2] || "local";
-  process.env.ENV = env;
+  const env = process.env.ENV;
+  // const env = process.argv[2] || "local";
+  // process.env.ENV = env;
   checkEnv(env);
 
   // select chain prompt

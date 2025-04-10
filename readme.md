@@ -16,7 +16,7 @@ Build the smart contracts:
 npm run build
 ```
 
-Run the local devnet nodes:
+If in local env, run the devnet nodes:
 ```
 npm run setup
 ```

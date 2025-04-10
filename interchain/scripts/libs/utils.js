@@ -4,6 +4,7 @@ import fs from 'fs-extra';
 import { fileURLToPath } from 'url';
 import { configPath } from '../../config/index.js';
 import axelarLocal from '@axelar-network/axelar-local-dev';
+import { testnetInfo } from '@axelar-network/axelar-local-dev';
 import { AxelarAssetTransfer, AxelarQueryAPI, CHAINS, Environment } from '@axelar-network/axelarjs-sdk';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -66,20 +67,22 @@ function getChains() {
  * @param {*} chains - The list of chains to get the chain objects for. If this is empty, the default chains will be used.
  * @returns {Chain[]} - The chain objects.
  */
-async function getTestnetChains(chains = []) {
-    const _path = path.join(configPath.testnetChains);
+function getTestnetChains(chains = []) {
+    // const _path = `./chain-info/${env}-evm.json`;
+    // const _path = path.join(configPath.testnetChains);
+    const _path = path.join(__dirname, '/chain-info/testnet-evm.json');
     let testnet = [];
     if (fs.existsSync(_path)) {
-      testnet = fs.readJsonSync(path.join(configPath.testnetChains))
-        .filter((chain) => chains.includes(chain.name));
+        testnet = fs
+            .readJsonSync(path.join(_path))
+            .filter((chain) => chains.includes(chain.name));
     }
 
     if (testnet.length < chains.length) {
-      const { testnetInfo } = await import('@axelar-network/axelar-local-dev');
-      testnet = [];
-      for (const chain of chains) {
-        testnet.push(testnetInfo[chain.toLowerCase()]);
-      }
+        testnet = [];
+        for (const chain of chains) {
+            testnet.push(testnetInfo[chain.toLowerCase()]);
+        }
     }
 
     // temporary fix for gas service contract address
