@@ -7,7 +7,7 @@ async function displayMessages(messages, tlock) {
   // Create state for all spinners
   console.log("\n");
   const spinners = messages.map((msg, index) => ({
-    text: `Transaction ${index + 1}: Decrypting message...`,
+    text: `Message ${index + 1}: Unlocking...`,
     frames: cliSpinners.dots.frames,
     frameIndex: 0,
     isDone: false,
@@ -25,17 +25,18 @@ async function displayMessages(messages, tlock) {
     const output = spinners
       .map((spinner, index) => {
         // Check if this spinner is ready to start decryption
-        const diff = Date.now() - spinner.decryptionTime;
+        const diffInMs = Date.now() - spinner.decryptionTime;
+        const diff = Math.floor((diffInMs-80) / 1000);
         if (
           Date.now() - spinner.decryptionTime > 0 &&
           !spinner.isDecrypting &&
           !spinner.isDone
         ) {
-          spinner.isUnlocking = true; // Mark that unlocking has started
           spinner.isDecrypting = true; // Mark that decryption has started
+          spinner.isUnlocking = true; // Mark that unlocking has started
           spinner.frames = cliSpinners.squareCorners.frames;
-          spinner.text = "Unlocking...";
-          spinner.result = "Unlocking...";
+          spinner.text = "Decrypting...";
+          spinner.result = "Decrypting...";
 
           // Start the decryption process
           tlock.tlDecrypt(spinner.payload).then((result) => {
@@ -47,9 +48,8 @@ async function displayMessages(messages, tlock) {
         // Advance frame for active spinners
         if (!spinner.isDone) {
           spinner.frameIndex = (spinner.frameIndex + 1) % spinner.frames.length;
-          return `${spinner.frames[spinner.frameIndex]} ${
-            spinner.text
-          } in ${Math.abs(diff)}`;
+          return `${spinner.frames[spinner.frameIndex]} ${spinner.text} ${spinner.isUnlocking ? "" : Math.abs(diff)}`;
+          
         } else {
           return `✓ ${spinner.result}`;
         }
