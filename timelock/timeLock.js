@@ -1,7 +1,5 @@
-const { roundAt, timelockEncrypt, timelockDecrypt } = require("tlock-js");
-const {
-  quicknetClient,
-} = require("drand-client");
+import { roundAt, timelockEncrypt, timelockDecrypt } from "tlock-js";
+import { quicknetClient } from "drand-client";
 
 function tLock() {
   const client = quicknetClient();
@@ -44,6 +42,6 @@ function tLock() {
   };
 }
 
-module.exports = {
+export {
   tLock,
 };

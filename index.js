@@ -1,20 +1,20 @@
-const { displayMessages } = require("./src/printMsgOnTerminal.js");
-const {
+import { displayMessages } from "./src/printMsgOnTerminal.js";
+import {
   readSendMessage,
   readAction,
   readPrompt,
-} = require("./src/readFromTerminal.js");
-const sendDummyTx = require("./src/utils.js");
-const { appendAgeToPayload } = require("./timelock/utils.js");
+} from "./src/readFromTerminal.js";
+import sendDummyTx from "./src/utils.js";
+import { appendAgeToPayload } from "./timelock/utils.js";
 
-const ethers = require("ethers");
-const { tLock } = require("./timelock/timeLock.js");
-const {
+import { ethers } from "ethers";
+import { tLock } from "./timelock/timeLock.js";
+import {
   userASendsMessage,
   userBReadsMessages,
-} = require("./src/contractHandlers.js");
+} from "./src/contractHandlers.js";
 
-const { getChains, checkEnv } = require("./interchain/scripts/libs");
+import { getChains, checkEnv } from "./interchain/scripts/libs/index.js";
 
 async function main() {
   const privateKey = process.env.EVM_PRIVATE_KEY;

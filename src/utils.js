@@ -1,6 +1,6 @@
-const fs = require("fs-extra");
-const {userASendsMessage} = require("./contractHandlers.js");
-const {encrypt} = require("./readFromTerminal.js");
+import fs from "fs-extra";
+import { userASendsMessage } from "./contractHandlers.js";
+import { encrypt } from "./readFromTerminal.js";
 
 const dataArray = fs.readJSONSync("./src/transactions/dummyTx.json");
 
@@ -19,4 +19,5 @@ function truncate(str) {
   return str.slice(0, 4) + "..." + str.slice(-4);
 }
 
-module.exports = { sendDummyTx, truncate };
+export { sendDummyTx, truncate };
+export default sendDummyTx;

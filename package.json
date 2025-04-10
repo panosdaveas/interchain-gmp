@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "time-locked general message passing with interoperability",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "node index.js",
-    "setup": "node interchain/scripts/runStart",
-    "start": "node index.js",
+    "setup": "node interchain/scripts/runStart.js",
+    "start": "node --no-warnings=ExperimentalWarning index.js",
     "build": "rm -rf artifacts && npx hardhat clean && npx hardhat compile",
-    "deploy": "node interchain/scripts/runDeploy",
-    "check-balance": "node interchain/scripts/runCheckBalance"
+    "deploy": "node interchain/scripts/runDeploy.js",
+    "check-balance": "node interchain/scripts/runCheckBalance.js"
   },
   "keywords": [
     "gmp",
@@ -31,17 +32,16 @@
     "@axelar-network/axelarjs-sdk": "^0.17.2",
     "axios": "^1.8.4",
     "bip39": "^3.1.0",
-    "chalk": "^4.1.2",
+    "chalk": "^5.3.0",
     "cli-spinners": "^2.9.2",
     "dotenv": "^16.4.7",
     "drand-client": "^1.2.6",
     "ethers": "^5.8.0",
-    "inquirer": "^8.2.6",
-    "log-update": "^4.0.0",
-    "npm": "^11.2.0",
-    "ora": "^5.4.1",
+    "fs-extra": "^11.2.0",
+    "inquirer": "^9.2.16",
+    "log-update": "^5.0.1",
+    "ora": "^8.0.1",
     "path": "^0.12.7",
-    "require": "^2.4.20",
     "tlock-js": "^0.9.0"
   },
   "devDependencies": {
@@ -52,9 +52,12 @@
     "hardhat": "^2.9.9",
     "hardhat-gas-reporter": "^1.0.8",
     "mocha": "^10.0.0",
-    "prettier": "^2.6.2",
+    "prettier": "^3.2.5",
     "prettier-plugin-solidity": "^1.0.0-beta.19",
     "solhint": "^3.3.7",
     "solidity-coverage": "^0.8.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }

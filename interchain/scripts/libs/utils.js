@@ -1,9 +1,13 @@
-const { Wallet, Contract, ethers } = require('ethers');
-const path = require('path');
-const fs = require('fs-extra');
-const { configPath } = require('../../config');
-const axelarLocal = require('@axelar-network/axelar-local-dev');
-const { AxelarAssetTransfer, AxelarQueryAPI, CHAINS, Environment } = require('@axelar-network/axelarjs-sdk');
+import { Wallet, Contract, ethers } from 'ethers';
+import path from 'path';
+import fs from 'fs-extra';
+import { fileURLToPath } from 'url';
+import { configPath } from '../../config/index.js';
+import axelarLocal from '@axelar-network/axelar-local-dev';
+import { AxelarAssetTransfer, AxelarQueryAPI, CHAINS, Environment } from '@axelar-network/axelarjs-sdk';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Get the wallet from the environment variables. If the EVM_PRIVATE_KEY environment variable is set, use that. Otherwise, use the EVM_MNEMONIC environment variable.
@@ -51,11 +55,9 @@ function getChains() {
   checkEnv(env);
 
   if (env === "local") {
-    return fs
-      .readJsonSync(configPath.localEvmChains)
+    return fs.readJsonSync(configPath.localEvmChains);
   } else {
-    return fs
-      .readJsonSync(configPath.testnetChains)
+    return fs.readJsonSync(configPath.testnetChains);
   }
 }
 
@@ -64,19 +66,16 @@ function getChains() {
  * @param {*} chains - The list of chains to get the chain objects for. If this is empty, the default chains will be used.
  * @returns {Chain[]} - The chain objects.
  */
-function getTestnetChains(chains = []) {
-    // const _path = path.join(__dirname, '../chain-info/testnet-evm.json');
+async function getTestnetChains(chains = []) {
     const _path = path.join(configPath.testnetChains);
     let testnet = [];
     if (fs.existsSync(_path)) {
-      testnet = fs
-        // .readJsonSync(path.join(__dirname, '../chain-info/testnet-evm.json'))
-        .readJsonSync(path.join(configPath.testnetChains))
+      testnet = fs.readJsonSync(path.join(configPath.testnetChains))
         .filter((chain) => chains.includes(chain.name));
     }
 
     if (testnet.length < chains.length) {
-      const { testnetInfo } = require("@axelar-network/axelar-local-dev");
+      const { testnetInfo } = await import('@axelar-network/axelar-local-dev');
       testnet = [];
       for (const chain of chains) {
         testnet.push(testnetInfo[chain.toLowerCase()]);
@@ -84,7 +83,6 @@ function getTestnetChains(chains = []) {
     }
 
     // temporary fix for gas service contract address
-
     return testnet.map((chain) => ({
         ...chain,
         AxelarGasService: {
@@ -257,7 +255,7 @@ function deserializeContract(chain, wallet) {
   return chain;
 }
 
-module.exports = {
+export {
     getWallet,
     getDepositAddress,
     getBalances,

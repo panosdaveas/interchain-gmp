@@ -1,7 +1,7 @@
-const logUpdate = require("log-update");
-const cliSpinners = require("cli-spinners");
-const chalk = require("chalk");
-const {truncate} = require("./utils.js");
+import logUpdate from "log-update";
+import cliSpinners from "cli-spinners";
+import chalk from "chalk";
+import { truncate } from "./utils.js";
 
 async function displayMessages(messages, tlock) {
   // Create state for all spinners
@@ -65,6 +65,6 @@ async function displayMessages(messages, tlock) {
   }, 80);
 }
 
-module.exports = {
+export {
   displayMessages,
 };

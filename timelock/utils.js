@@ -1,5 +1,5 @@
-const { roundTime } = require("tlock-js");
-const { MAINNET_CHAIN_INFO } = require("tlock-js/drand/defaults.js");
+import { roundTime } from "tlock-js";
+import { MAINNET_CHAIN_INFO } from "tlock-js/drand/defaults.js";
 
 const errorMessage = (err) => {
   if (err instanceof Error) {
@@ -15,7 +15,7 @@ const errorMessage = (err) => {
 function getDifferenceInMinutes(age) {
   const now = new Date(); // Current time
   const ms = Math.abs(now - age); // Difference in milliseconds
-  const min = Math.floor(ms / (1000 * 60)); // Difference in minutes
+  let min = Math.floor(ms / (1000 * 60)); // Difference in minutes
   min = Math.abs(now - age) + 1; // Round minutes
   return { ms, min };
 }
@@ -54,7 +54,7 @@ function appendAgeToPayload(messages) {
   return messages;
 }
 
-module.exports = {
+export {
   errorMessage,
   getDifferenceInMinutes,
   appendAgeToPayload,

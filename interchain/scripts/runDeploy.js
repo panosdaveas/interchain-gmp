@@ -1,18 +1,18 @@
-"use strict";
+import path from 'path';
+import fs from 'fs-extra';
+import { getDefaultProvider, utils } from 'ethers';
+import { fileURLToPath } from 'url';
+import { utils as axelarUtils } from '@axelar-network/axelar-local-dev';
+import { checkEnv, getEVMChains, getWallet } from './libs/index.js';
+import { configPath } from '../config/index.js';
 
-const path = require("path");
-const fs = require('fs-extra');
-const { getDefaultProvider, utils } = require("ethers");
-const {
-  utils: { setJSON, deployContract },
-} = require("@axelar-network/axelar-local-dev");
-const {
-  checkEnv,
-  getEVMChains,
-  getWallet,
-} = require("./libs");
-const { configPath } = require("../config");
-const CallContract = rootRequire("./artifacts/contracts/tl_ic_gmp.sol/CrossChainMessaging.json");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Import the CallContract using dynamic import since it's being loaded with rootRequire
+const CallContract = globalThis.rootRequire('./artifacts/contracts/tl_ic_gmp.sol/CrossChainMessaging.json');
+
+const { setJSON, deployContract } = axelarUtils;
 
 async function chainDeploy(chain, wallet) {
   console.log(`Deploying CallContract for ${chain.name}.`);
@@ -49,7 +49,6 @@ async function deploy(env, chains, wallet) {
   }
 
   // Path to the JSON file
-  // const filePath = `./chain-info/${env}-evm.json`;
   const filePath = `./interchain/chain-config/${env}-evm.json`;
 
   // Check if file exists and read it, otherwise initialize empty array
@@ -90,8 +89,6 @@ function deployOnEvmChain(chains, wallet) {
 }
 
 function postDeploy(chains, wallet) {
-  // if (!.postDeploy) return;
-
   const deploys = chains.map((chain) => {
     const provider = getDefaultProvider(chain.rpc);
     return chainDeploy(chain, chains, wallet.connect(provider));
@@ -113,7 +110,6 @@ function isSerializableContract(obj) {
 
 // Main execution
 const env = process.argv[2] || 'local';
-// const env = process.env.ENV;
 const chainsToDeploy = process.argv.slice(3);
 
 // Check the environment. If it is not valid, exit.
@@ -128,7 +124,7 @@ const wallet = getWallet();
 // This will execute an example script. The example script must have a `deploy` function.
 deploy(env, chains, wallet);
 
-module.exports = {
+export {
   deploy,
   checkEnv,
   getEVMChains,
