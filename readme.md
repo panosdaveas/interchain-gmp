@@ -21,14 +21,14 @@ If in local env, run the devnet nodes in a new terminal window (first you will n
 npm run setup
 ```
 
-Deploy your contract on all local EVM chains, :
+Deploy your contract on all local EVM chains:
 ```
-npm run deploy local
+npm run deploy
 ```
 
-Or, deploy your contract on testnet EVM chains, e.g.:
+Or, deploy your contract on selected testnet EVM chains, e.g.:
 ```
-npm run deploy testnet "Avalanche" "Moonbeam"
+npm run deploy "Avalanche" "Moonbeam"
 ```
 
 Run the index.js file:
