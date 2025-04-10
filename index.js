@@ -4,7 +4,7 @@ const {
   readAction,
   readPrompt,
 } = require("./src/readFromTerminal.js");
-const sendDummyTx = require("./src/utils.js");
+const { sendDummyTx } = require("./src/utils.js");
 const { appendAgeToPayload } = require("./timelock/utils.js");
 
 const ethers = require("ethers");
