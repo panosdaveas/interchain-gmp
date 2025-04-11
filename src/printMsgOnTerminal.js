@@ -5,7 +5,6 @@ import { truncate } from "./utils.js";
 
 async function displayMessages(messages, tlock) {
   // Create state for all spinners
-  console.log("\n");
   const spinners = messages.map((msg, index) => ({
     text: `Message ${index + 1}: Unlocking...`,
     frames: cliSpinners.dots.frames,

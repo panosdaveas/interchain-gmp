@@ -6,7 +6,7 @@
       "recipientAddress": "0xE2a7027C0DCcF4F322e0e792765038902ce4500e",
       "sender": "0xE2a7027C0DCcF4F322e0e792765038902ce4500e",
       "payload": "Hello, world!",
-      "decryptionTime": 1
+      "decryptionTime": 0.5
     },
     {
       "sourceChain": "Moonbeam",
@@ -24,7 +24,7 @@
       "recipientAddress": "0xE2a7027C0DCcF4F322e0e792765038902ce4500e",
       "sender": "0xE2a7027C0DCcF4F322e0e792765038902ce4500e",
       "payload": "Hello, world!",
-      "decryptionTime": 2
+      "decryptionTime": 0.8
     },
     {
       "sourceChain": "Moonbeam",
@@ -33,7 +33,16 @@
       "recipientAddress": "0xE2a7027C0DCcF4F322e0e792765038902ce4500e",
       "sender": "0xE2a7027C0DCcF4F322e0e792765038902ce4500e",
       "payload": "Hello, world!",
-      "decryptionTime": 1.5
+      "decryptionTime": 1
+    },
+    {
+      "sourceChain": "Moonbeam",
+      "destinationChain": "Avalanche",
+      "contractAddress": "0xEf2E74fe32DE68A06a4b8b74e72dA8F54f55a8ca",
+      "recipientAddress": "0xE2a7027C0DCcF4F322e0e792765038902ce4500e",
+      "sender": "0xE2a7027C0DCcF4F322e0e792765038902ce4500e",
+      "payload": "Hello, world!",
+      "decryptionTime": 2
     },
     {
       "sourceChain": "Moonbeam",

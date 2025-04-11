@@ -8,6 +8,7 @@ import {
 import sendDummyTx from "./src/utils.js";
 import chalk from "chalk";
 import { appendAgeToPayload } from "./timelock/utils.js";
+import clear from "console-clear";
 
 import { ethers } from "ethers";
 import { tLock } from "./timelock/timeLock.js";
@@ -19,6 +20,7 @@ import {
 import { getChains, checkEnv } from "./interchain/scripts/libs/index.js";
 
 async function main() {
+  clear();
   const privateKey = process.env.EVM_PRIVATE_KEY;
   const env = process.env.ENV;
   checkEnv(env);

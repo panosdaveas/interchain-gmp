@@ -10,7 +10,8 @@
     "start": "node --no-warnings=ExperimentalWarning index.js",
     "build": "rm -rf artifacts && npx hardhat clean && npx hardhat compile",
     "deploy": "node interchain/scripts/runDeploy.js",
-    "check-balance": "node interchain/scripts/runCheckBalance.js"
+    "check-balance": "node interchain/scripts/runCheckBalance.js",
+    "help": "node src/help.js"
   },
   "keywords": [
     "gmp",
@@ -34,12 +35,15 @@
     "bip39": "^3.1.0",
     "chalk": "^5.3.0",
     "cli-spinners": "^2.9.2",
+    "console-clear": "^1.1.1",
     "dotenv": "^16.4.7",
     "drand-client": "^1.2.6",
     "ethers": "^5.8.0",
     "fs-extra": "^11.2.0",
     "inquirer": "^9.2.16",
     "log-update": "^5.0.1",
+    "marked": "^15.0.8",
+    "marked-terminal": "^7.3.0",
     "ora": "^8.0.1",
     "path": "^0.12.7",
     "tlock-js": "^0.9.0"
