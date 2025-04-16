@@ -26,7 +26,7 @@ async function main() {
   checkEnv(env);
 
   // select chain prompt
-  console.log("\nCurrent Environment:", chalk.bold.italic(env.toUpperCase()));
+  console.log("\nEnvironment:", chalk.bold.italic(env.toUpperCase()));
   const chains = getChains();
   const chainNames = chains.map((chain) => chain.name);
   const selectedChain = await readPrompt(
@@ -41,9 +41,7 @@ async function main() {
   // Create wallet instance with provider
   const provider = new ethers.providers.JsonRpcProvider(chain["rpc"]);
   const wallet = new ethers.Wallet(privateKey, provider);
-  console.log(
-    `\n✅ Connected to ${chalk.bold(chain["name"])} (Chain ID: ${chain["chainId"]})`
-  );
+  console.log(`\n✅ Connected to "name" (Chain ID: ${chain["chainId"]})`);
 
   // // Get wallet address and balance
   const address = await wallet.getAddress();

@@ -53,7 +53,7 @@ class CrossChainMessenger {
 
       // Wait for transaction confirmation
       const receipt = await tx.wait();
-      console.log("Message sent!", receipt.transactionHash);
+      console.log("Message sent! Tx:", receipt.transactionHash);
       return receipt;
     } catch (error) {
       console.error("Error sending message:", error);
