@@ -1,6 +1,7 @@
 ### interchain general mesage passing supporting timelocked messages
 
 Install the dependencies:
+(Please note that in order to run in local net, you need a version of Node between 16-18)
 ```
 npm install
 ```
